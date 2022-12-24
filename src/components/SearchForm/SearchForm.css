@@ -1,0 +1,111 @@
+.search__form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #202020;
+    color: rgba(139, 139, 139, 1);
+    height: 200px;
+    position: relative;
+}
+.search__form::after {
+    content : "";
+    position: absolute;
+    left: 70px;
+    right: 70px;
+    bottom: 0;
+    height: 1px;
+    border-bottom: 1px #424242 solid;
+}
+.search__input {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    padding-left: 63px;
+    position: relative;
+    background-color: #2F2F2F;
+    height: 72px;
+    border: 0;
+    outline: none;
+    border-radius: 9px;
+    width: 100%;
+    margin: 70px 70px 70px 70px;
+}
+.search__icon {
+    z-index: 2;
+    position: absolute;
+    margin-left: 90px;
+}
+.search__button {
+    background-image: url("../../images/search-button.svg");
+    background-repeat: no-repeat;
+    height: 34px;
+    width: 34px;
+    background-color: transparent;
+    border: none;
+}
+.search__separation {
+    color: rgba(139, 139, 139, 1);
+    border: #505050 1px solid;
+    height: 40px;
+}
+.search__container {
+    right: 8%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    justify-content: flex-end;
+}
+
+@media screen and (max-width: 930px) {
+    .search__form::after {
+        left: 30px;
+        right: 30px;
+    }
+    .search__input {
+        margin: 0px 30px 110px;
+    }
+    .search__icon {
+        top: 14.1%;
+        left: -5%;
+    }
+    .search__container {
+        top: 12.7%;
+        right: 7%;
+        gap: 19px;
+}
+
+@media screen and (max-width: 500px) {
+    .search__input {
+        font-size: 14px;
+        padding-left: 19px;
+        margin: 0px 10px 110px;
+    }
+    .search__form::after {
+        left: 10px;
+        right: 10px;
+    }
+    .search__icon {
+        display: none;
+    }
+    .search__separation {
+        display: none;
+    }
+    .search__container {
+        display: flex;
+        flex-direction: column;
+        gap: 65px;
+        min-width: 275px;
+    }
+    .search__button{
+        align-self: flex-end;
+    }
+    .search__form {
+        align-items: center;
+    }
+    .search__form {
+        height: 183px;
+        margin: 0 auto;
+    }
+}
+}
