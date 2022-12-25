@@ -1,0 +1,28 @@
+.navtab {
+    background-color: rgba(39, 39, 39, 1);
+    color: white;
+    height: 66px;
+    display: flex;
+    align-items: center;
+    column-gap: 40px;
+    justify-content: center;
+    border: none
+}
+.navtab__link {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    border-bottom: 1px solid white;
+    color: white;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 321px) {
+    .navtab {
+        column-gap: 24px;
+    }
+    .navtab__link {
+        font-size: 11px;
+    }
+}  
