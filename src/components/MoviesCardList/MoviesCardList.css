@@ -22,7 +22,7 @@
   width: 320px;
   height: 36px;
   margin-top: 50px;
-  margin-bottom: 80px;
+  margin-bottom: 150px;
   font-weight: 500;
   font-size: 12px;
   line-height: 15px;
@@ -55,7 +55,5 @@
   }
   .movies__more-button {
     width: 240px;
-    margin-top: 50px;
-    margin-bottom: 80px;
   }
 }

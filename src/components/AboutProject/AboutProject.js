@@ -16,13 +16,13 @@ function AboutProject() {
             </div>
         </div>  
         <div className='about-project__bar'>
-            <div className='about-project__bar-line'>
-                <p className='about-project__bar-line_green'>1 неделя</p>
-                <p className='about-project__bar-subline'>Back-end</p>
+            <div className='bar'>
+                <p className='barline barline_theme_green'>1 неделя</p>
+                <p className='bar__subline'>Back-end</p>
             </div>
-            <div className='about-project__bar-line'>
-                <p className='about-project__bar-line_grey'>4 недели</p>
-                <p className='about-project__bar-subline'>Front-end</p>
+            <div className='bar'>
+                <p className='barline barline_theme_grey'>4 недели</p>
+                <p className='bar__subline'>Front-end</p>
             </div>          
         </div>
     </section>  );

@@ -4,11 +4,17 @@ function LandingHeader() {
 
   return (
     <header className="landing-header">
-        <a className="header__logo link" href="/"></a>
-        <div className="landing-header__links">
-            <a href="/signup" className="header__link landing-header__link link">Регистрация</a>
-            <a href="/signin" className="header__link landing-header__link landing-header__link_login link">Войти</a>
-        </div>
+        <a className="logo link" href="/"></a>
+        <nav>
+            <ul className="landing-header__nav list">
+                <li className='landing-header__item list-item'>
+                    <a href="/signup" className="link">Регистрация</a>
+                </li>
+                <li className='landing-header__item landing-header__item_name_login list-item'>
+                    <a href="/signin" className="link">Войти</a>
+                </li>
+            </ul>
+        </nav>
     </header>  );
 }
 

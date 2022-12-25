@@ -4,7 +4,7 @@ function Promo() {
 
   return (
     <section className="promo">
-        <img className="promo__landing-logo"></img>
+        <div className="promo__landing-logo"></div>
         <h1 className="promo__title">Учебный проект студента факультета Веб-разработки.</h1>
     </section>  );
 }

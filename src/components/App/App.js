@@ -39,16 +39,16 @@ function App() {
     <div className="page__container">
       <Switch>
         <Route exact path="/">
+          <main className='main'>
           <LandingHeader/>
-          <div className='main'>
             <Promo/>
             <NavTab/>
             <AboutProject/>
             <Techs/>
             <AboutMe/>
             <Portfolio/>
-          </div>
           <Footer/>
+          </main> 
         </Route>
         <Route path="/movies">
           <Header 
@@ -65,7 +65,6 @@ function App() {
               card={card} key={index}/>)
             })}
           </MoviesCardList>
-
           <Footer/>
         </Route>
         <Route path="/saved-movies">

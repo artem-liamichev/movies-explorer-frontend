@@ -5,9 +5,9 @@ function MoviesCardList(props) {
 
   return (
     <div className='movies'>
-        <section className="movies__list">
+        <ul className="movies__list list">
             {props.children}
-        </section>
+        </ul>
         <button className='movies__more-button button'>Ещё</button>
     </div>
     );

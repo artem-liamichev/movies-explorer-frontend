@@ -1,4 +1,4 @@
-.login__form {
+.login {
     margin: auto;
     margin-top: 70px;
     width: 396px;
@@ -11,12 +11,7 @@
     color: white;
 }
 .login__logo {
-    background-image: url("../../images/header-logo.svg");
-    width: 38px;
-    height: 38px;
-    display: block;
     align-self: flex-start;
-
 }
 .login__title {
     margin: 0;
@@ -79,9 +74,6 @@
     border-radius: 3px;
     border: none;
 }
-.login__submit:hover {
-    cursor: pointer;
-}
 .login__subline {
     font-style: normal;
     font-weight: 400;
@@ -91,21 +83,18 @@
     color: #8B8B8B;
     align-self: center;
 }
-.login__subline_link {
+.signup-link {
     color: #4285F4;
-}
-.login__subline_link:hover {
-    cursor: pointer;
 }
 
 @media screen and (max-width: 930px) { 
-    .login__form {
+    .login {
         margin-top: 232px;
     }
 }
 
 @media screen and (max-width: 767px) {
-    .login__form {
+    .login {
         margin-top: 56px;
         align-items: center;
         width: 260px;

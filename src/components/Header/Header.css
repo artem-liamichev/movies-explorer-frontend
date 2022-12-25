@@ -1,3 +1,12 @@
+.list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.list-item {
+    padding: 0;
+    list-style: none;
+}
 .header {
     padding: 0 70px;
     display: flex;
@@ -7,21 +16,20 @@
     height: 74px;
     color: white;
 } 
-.header__logo {
+.logo {
     background-image: url("../../images/header-logo.svg");
     width: 38px;
     height: 38px;
     display: block;
 }
-.header__links {
+.header__nav {
     display: grid;
     grid-auto-flow: column;
     align-items: center;
     justify-content: space-between;
     column-gap: 20px;
-    list-style-type: none;
 }
-.header__link {
+.header__item {
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -29,16 +37,16 @@
     color: white;
     text-decoration: none;
 }
-.header__link.active {
+.header__item.active {
     font-weight: 500;
 }
-.header__link-account {
+.account {
     display: flex;
     align-items: center;
     justify-content: space-between;
     text-decoration: none;
 }
-.header__link-right {
+.account__text {
     margin-left: 30px;
     margin-right: 13px;
     font-family: 'Inter';
@@ -47,7 +55,7 @@
     font-size: 14px;
     line-height: 16px;
 }
-.header__link-icon {
+.account__icon {
     background-image: url("../../images/header-icon.svg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -102,7 +110,7 @@
 }
 .link{
     text-decoration: none;
-    color: white;
+    color: inherit;
 }
 .link:hover {
     cursor: pointer;
@@ -123,10 +131,10 @@
     .header__menu_active {
         display: block;
     }
-    .header__links {
+    .header__nav {
         display: none;
     }
-    .header__link {
+    .header__item {
         margin-left: 0;
 
     }
@@ -140,10 +148,7 @@
         top:0;
         left:0
     }
-    .menu__list {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
+    .menu__nav {
         margin-top: 159px;
         display: flex;
         flex-direction: column;
@@ -160,7 +165,7 @@
         padding-bottom: 4px;
         border-bottom: 1px solid white;
       }
-    .header__link-account {
+    .account {
         margin-top: 47vh;
         font-size: 14px;
         line-height: 16px;

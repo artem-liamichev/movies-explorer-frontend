@@ -45,37 +45,33 @@
     margin-top: 26px;
     margin-bottom: 0;
 }
-
 .about-project__bar {
     display: grid;
     grid-template-columns: 1fr 4fr;
 }
 
-.about-project__bar-line_green {
+.barline {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    padding: 9px 0px;
+    margin-top: 0;
+}
+
+.barline_theme_green {
     background-color: rgba(61, 220, 132, 1);
     color:black;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    text-align: center;
-    padding: 9px 0px;
-    margin-top: 0;
 }
 
-.about-project__bar-line_grey {
+.barline_theme_grey {
     background-color: rgba(48, 48, 48, 1);
     color: white;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    text-align: center;
-    padding: 9px 0px;
-    margin-top: 0;
 }
 
-.about-project__bar-subline {
+
+.bar__subline {
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
@@ -100,22 +96,22 @@
 }
 
 @media screen and (max-width: 450px) {
-    .about-project__bar-line_green {
+    .barline_theme_green {
         font-size: 11px;
         line-height: 13px;
         min-width: 100px;
     }
-    .about-project__bar-line_grey {
+    .barline_theme_grey {
         font-size: 11px;
         line-height: 13px;
     }
-    .about-project__bar-subline {
+    .bar__subline {
         font-size: 11px;
         line-height: 13px;
     }
 }
 
-@media screen and (max-width: 321px) {
+@media screen and (max-width: 340px) {
     .about-project {
         padding: 70px 18px;
     }

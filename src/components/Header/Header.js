@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, NavLink, useLocation} from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation} from 'react-router-dom';
 import closeButton from '../../images/close-button.svg';
 
 function Header({isOpen, onMenuClick, onClose}) {
@@ -9,14 +9,23 @@ function Header({isOpen, onMenuClick, onClose}) {
 
   return (
     <header className="header">
-        <a className="header__logo link" href="/"></a>
-        <nav className="header__links">
-            <a href="/movies" className={`header__link link ${pathname==='/movies' ? "active" : ""}`}>Фильмы</a>
-            <a href="/saved-movies" className={`header__link link ${pathname==='/saved-movies' ? "active" : ""}`}>Сохранённые фильмы</a>
-            <a href="/profile" className='header__link-account link'>
-                <li className={`header__link header__link-right ${pathname==='/profile' ? "active" : ""}`}>Аккаунт</li>
-                <li className='header__link-icon'></li>
-            </a>
+        <a className="logo link" href="/"></a>
+        <nav>
+            <ul className="header__nav list">
+                <li className='list-item'>
+                    <a href="/movies" className={`header__item link ${pathname==='/movies' ? "active" : ""}`}>Фильмы</a>
+                </li>
+                <li className='list-item'>
+                    <a href="/saved-movies" className={`header__item link ${pathname==='/saved-movies' ? "active" : ""}`}>Сохранённые фильмы</a>
+                </li>
+                <li className='list-item'>
+                    <a href="/profile" className='account link'>
+                        <span className={`header__item account__text ${pathname==='/profile' ? "active" : ""}`}>Аккаунт</span>
+                        <span className='account__icon'></span>
+                    </a>
+                </li>
+                
+            </ul>
         </nav>
         <nav className={`header__menu ${isOpen ? "" : "header__menu_active"}`}>
             <button className='header__menu-button button' onClick={onMenuClick}></button>
@@ -26,8 +35,8 @@ function Header({isOpen, onMenuClick, onClose}) {
                 <button className="menu__close-button button" type="button" onClick = {onClose}>
                     <img className="menu__image-close" src={closeButton} alt="закрыть меню"/>
                 </button>
-                <div className="menu__content">
-                        <ul className="menu__list">
+                <nav className="menu__content">
+                        <ul className="menu__nav list">
                             <li>
                                 <a href="/" className={`menu__item link ${pathname==='/' ? "active" : ""}`}>Главная</a>
                             </li>
@@ -38,13 +47,13 @@ function Header({isOpen, onMenuClick, onClose}) {
                                 <a href="/saved-movies" className={`menu__item link ${pathname==='/saved-movies' ? "active" : ""}`}>Сохраненные фильмы</a>
                             </li>
                             <li>
-                                <a href="/profile" className="header__link-account link">
-                                    <span className={`menu__item header__link header__link-right ${pathname==='/profile' ? "active" : ""}`}>Аккаунт</span>
-                                    <span className='header__link-icon'></span>
+                                <a href="/profile" className="account link">
+                                    <span className={`menu__item header__item account__text ${pathname==='/profile' ? "active" : ""}`}>Аккаунт</span>
+                                    <span className='account__icon'></span>
                                 </a>
                             </li>
                         </ul>
-            </div>
+            </nav>
         </div>
     </header>  );
 }

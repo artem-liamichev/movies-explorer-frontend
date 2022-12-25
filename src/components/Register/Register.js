@@ -15,25 +15,25 @@ function Register() {
     }
 
     return (
-        <form className="register__form" noValidate>
+        <form className="register" noValidate>
             <div className="register__intro">
-                <a className="register__logo link" href="/"></a>
+                <a className="register__logo logo link" href="/"></a>
                 <h3 className="register__title">Добро пожаловать!</h3>
             </div>
             <label className="register__input-label">
                 <span className="register__input-title">Имя</span>
-                <input className="register__input" onChange={handleChange} autoComplete="user-name" value={loginData.name} name="name" type="text" placeholder="Имя" required minLength="2" maxLength="30" />
+                <input className="register__input" onChange={handleChange} autoComplete="off" value={loginData.name} name="name" type="text" placeholder="Имя" required minLength="2" maxLength="30" />
             </label>
             <label className="register__input-label">
                 <span className="register__input-title">E-mail</span>
-                <input className="register__input" onChange={handleChange} autoComplete="user-email" value={loginData.email} name="email" type="email" placeholder="E-mail" required minLength="2" maxLength="30" />
+                <input className="register__input" onChange={handleChange} autoComplete="off" value={loginData.email} name="email" type="email" placeholder="E-mail" required minLength="2" maxLength="30" />
             </label>
             <label className="register__input-label">
                 <span className="register__input-title">Пароль</span>
-                <input className="register__input" onChange={handleChange} autoComplete="user-password" value={loginData.password} name="password" type="password" placeholder="Пароль" required minLength="2" maxLength="30" />
+                <input className="register__input" onChange={handleChange} autoComplete="off" value={loginData.password} name="password" type="password" placeholder="Пароль" required minLength="2" maxLength="30" />
             </label>
             <button className="register__submit button" type="submit">Зарегистрироваться</button>
-            <p className="register__subline">Уже зарегистрированы? <a href="/signin" className="register__subline_link link">Войти</a></p>
+            <p className="register__subline">Уже зарегистрированы? <a href="/signin" className="signin-link link">Войти</a></p>
         </form>
 )}
 

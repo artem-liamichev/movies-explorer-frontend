@@ -41,7 +41,7 @@
     }
 }
 
-@media screen and (max-width: 321px) {
+@media screen and (max-width: 400px) {
     .promo {
         min-height: 570px;
         background-size: 248px 248px;
