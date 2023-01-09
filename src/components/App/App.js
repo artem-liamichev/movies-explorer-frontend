@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './App.css';
 import LandingHeader from '../LandingHeader/LandingHeader.js';
 import Header from '../Header/Header.js';
@@ -19,19 +19,34 @@ import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
-import {initialCards} from '../../utils/initialCards';
+import SearchNotValid from '../SearchNotValid/SearchNotValid';
 import {savedCards} from '../../utils/savedCards';
-
+import { api } from '../../utils/MoviesApi';
+import { renderLoading } from '../../utils/constants';
+import { searchResult } from '../../utils/constants';
+import { searchCompletion } from '../../utils/constants';
+import SearchHasError from '../SearchHasError/SearchHasError';
 
 function App() {
 
-  const [isMenuOpen, setMenuOpen] = useState(false);
-  const [isRequired, setExtendedResult] = useState(false);
+  const [isChecked, setFilterChecked] = useState(JSON.parse(localStorage.getItem('isChecked')))
+
+  const [initialCards, setInitialCards] = useState([]);
+
+  const [filteredCards, setFilteredCards] = useState(JSON.parse(localStorage.getItem('filteredCards')));
   
+  const [visibleCards, setVisibleCards] = useState([]);
+
+  const [filteredShorts, setFilteredShorts] = useState(filteredCards.filter((c) => c.duration <= 60));
+
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  
+  const [isRequired, setExtendedResult] = useState(false);
+
+  const localWord = localStorage.getItem('inputValue')
+
   function handleExtendClick() {
     if (isChecked) {
-      console.log('visibleCards:', visibleCards)
-      console.log('filteredShorts:', filteredShorts)
       if (visibleCards.length > filteredShorts.length-4) {
         setExtendedResult(false)
       }
@@ -44,37 +59,76 @@ function App() {
       }
   }
 
-  useEffect(() => {
-    // setFilterChecked(localStorage.getItem('isChecked'))
-    console.log('useEffectisChecked:', isChecked)
-    if (isChecked) {
-        if (filteredShorts.length <= 6) {
-          setVisibleCards(filteredShorts);
-          setExtendedResult(false)
-        } else {
-          setExtendedResult(true)
-          setVisibleCards(filteredShorts.slice(0,6));
-        }
-      } else 
-        if (filteredCards.length <= 6) {
-            setVisibleCards(filteredCards)
-            setExtendedResult(false)
-          } else {
-            setExtendedResult(true)
-            setVisibleCards(filteredCards.slice(0,6));
-            };
-  }, [isChecked])
+  function handleRendering() {
+    if (!isChecked) {
+      if (filteredCards.length <= 6) {
+        setVisibleCards(filteredCards)
+        setExtendedResult(false)
+      } else {
+        setExtendedResult(true)
+        setVisibleCards(filteredCards.slice(0,6));
+        };  
+    }
+     else {
+      if (filteredShorts.length <= 6) {
+        setVisibleCards(filteredShorts);
+        setExtendedResult(false)
+      } else {
+        setExtendedResult(true)
+        setVisibleCards(filteredShorts.slice(0,6));
+      }      
+    }
+  }
 
   useEffect(() => {
-  
-  function handleMenuClick () {
+    if (localWord) {
+      setFilteredShorts(filteredShorts);
+      setFilteredCards(filteredCards);
+      handleRendering()
+    }
+    else {
+      setFilteredCards([])
+      setFilteredShorts([])
+      setVisibleCards([])
+    }
+  }, [isChecked, localWord])
+
+  function handleMenuClick() {
     setMenuOpen(true);
   }
 
-  function closeMenuClick () {
+  function closeMenuClick() {
     setMenuOpen(false);
   }
-  
+
+  function handleSearch(filterText) {
+    if (filterText) {
+      searchResult(true);
+      renderLoading(true);
+      api
+        .getInitialCards()
+        .then((initialCards) => {
+          setInitialCards(initialCards);
+          const filteredCards = initialCards.filter((card) => card.nameRU.toLowerCase().includes(filterText)||card.nameEN.toLowerCase().includes(filterText))
+          setFilteredCards(filteredCards);
+          localStorage.setItem('filteredCards', JSON.stringify(filteredCards));
+          const filteredShorts = filteredCards.filter((c) => c.duration <= 60);
+          setFilteredShorts(filteredShorts);
+          handleRendering()
+        })
+        .catch((err) => {
+          console.log(err);
+          searchCompletion(false)
+        })
+        .finally(()=>{
+          setTimeout(()=>{
+            renderLoading(false);
+          }, 200)})
+    } else {
+      searchResult(false)
+    }
+}
+
   return (
     <div className="page__container">
       <Switch>
@@ -92,19 +146,28 @@ function App() {
         </Route>
         <Route path="/movies">
           <Header 
-          isOpen={isMenuOpen}
-          onMenuClick={handleMenuClick}
-          onClose={closeMenuClick}/>          
-          <SearchForm>
-            <FilterCheckbox/>
+            isOpen={isMenuOpen}
+            onMenuClick={handleMenuClick}
+            onClose={closeMenuClick}/>          
+          <SearchForm
+            onSearchClick={handleSearch}
+          >
+            <FilterCheckbox
+              onFilterClick={setFilterChecked}
+            />
           </SearchForm>
-          {/* <Preloader/> */}
-          <MoviesCardList>
-            {initialCards.map((card, index)=>{
+          <Preloader/>
+          <MoviesCardList
+            onExtendClick={handleExtendClick}
+            isRequired={isRequired}
+          >
+            {visibleCards.map((card, index)=>{
               return (<MoviesCard
               card={card} key={index}/>)
             })}
           </MoviesCardList>
+          <SearchNotValid/>
+          <SearchHasError/>
           <Footer/>
         </Route>
         <Route path="/saved-movies">
@@ -112,7 +175,9 @@ function App() {
             isOpen={isMenuOpen}
             onMenuClick={handleMenuClick}
             onClose={closeMenuClick}/>  
-          <SearchForm>
+          <SearchForm
+            onSearchClick={handleSearch}
+          >
             <FilterCheckbox/>
           </SearchForm>
           <MoviesCardList>

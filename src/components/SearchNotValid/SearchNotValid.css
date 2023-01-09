@@ -1,0 +1,18 @@
+.not-valid {
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.not-valid__title {
+    margin: 0;
+    vertical-align: middle;
+    align-self: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 130px;
+    margin-top: 80px;
+}

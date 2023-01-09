@@ -20,3 +20,5 @@
 @import url(./components/Login/Login.css);
 @import url(./components/PageNotFound/PageNotFound.css);
 @import url(./components/LandingHeader/LandingHeader.css);
+@import url(./components/SearchNotValid/SearchNotValid.css);
+@import url(./components/SearchHasError/SearchHasError.css);

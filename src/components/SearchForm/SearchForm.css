@@ -17,6 +17,9 @@
     border-bottom: 1px #424242 solid;
 }
 .search__input {
+    color-scheme: dark;
+    color: white;
+    appearance: none;
     font-weight: 400;
     font-size: 18px;
     line-height: 20px;
@@ -30,6 +33,10 @@
     width: 100%;
     margin: 70px 70px 70px 70px;
 }
+.search__input::-webkit-search-cancel-button {
+    display: none;
+}
+
 .search__icon {
     z-index: 2;
     position: absolute;
