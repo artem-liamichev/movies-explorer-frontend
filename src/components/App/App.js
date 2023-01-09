@@ -26,6 +26,46 @@ import {savedCards} from '../../utils/savedCards';
 function App() {
 
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const [isRequired, setExtendedResult] = useState(false);
+  
+  function handleExtendClick() {
+    if (isChecked) {
+      console.log('visibleCards:', visibleCards)
+      console.log('filteredShorts:', filteredShorts)
+      if (visibleCards.length > filteredShorts.length-4) {
+        setExtendedResult(false)
+      }
+      setVisibleCards(filteredShorts.slice(0, visibleCards.length+3));
+    } else {
+      if (visibleCards.length > filteredCards.length-4) {
+        setExtendedResult(false)
+      }
+      setVisibleCards(filteredCards.slice(0, visibleCards.length+3));
+      }
+  }
+
+  useEffect(() => {
+    // setFilterChecked(localStorage.getItem('isChecked'))
+    console.log('useEffectisChecked:', isChecked)
+    if (isChecked) {
+        if (filteredShorts.length <= 6) {
+          setVisibleCards(filteredShorts);
+          setExtendedResult(false)
+        } else {
+          setExtendedResult(true)
+          setVisibleCards(filteredShorts.slice(0,6));
+        }
+      } else 
+        if (filteredCards.length <= 6) {
+            setVisibleCards(filteredCards)
+            setExtendedResult(false)
+          } else {
+            setExtendedResult(true)
+            setVisibleCards(filteredCards.slice(0,6));
+            };
+  }, [isChecked])
+
+  useEffect(() => {
   
   function handleMenuClick () {
     setMenuOpen(true);
