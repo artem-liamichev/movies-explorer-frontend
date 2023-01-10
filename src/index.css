@@ -22,3 +22,4 @@
 @import url(./components/LandingHeader/LandingHeader.css);
 @import url(./components/SearchNotValid/SearchNotValid.css);
 @import url(./components/SearchHasError/SearchHasError.css);
+@import url(./components/SearchHasNoResults/SearchHasNoResults.css);

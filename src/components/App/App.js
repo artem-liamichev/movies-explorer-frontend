@@ -25,7 +25,9 @@ import { api } from '../../utils/MoviesApi';
 import { renderLoading } from '../../utils/constants';
 import { searchResult } from '../../utils/constants';
 import { searchCompletion } from '../../utils/constants';
+import { searchFindings } from '../../utils/constants';
 import SearchHasError from '../SearchHasError/SearchHasError';
+import SearchHasNoResults from '../SearchHasNoResults/SearchHasNoResults';
 
 function App() {
 
@@ -42,6 +44,8 @@ function App() {
   const [isMenuOpen, setMenuOpen] = useState(false);
   
   const [isRequired, setExtendedResult] = useState(false);
+
+  // const [isResultEmpty, setIsResultEmpty] = useState(false) 
 
   const localWord = localStorage.getItem('inputValue')
 
@@ -80,11 +84,29 @@ function App() {
     }
   }
 
+  function handleEmptyResults() {
+    if ((filteredCards.length>0)||(localWord.length===0)) {
+      searchFindings(false);
+    } else {
+      searchFindings(true);
+      // setFilteredCards([])
+      // setFilteredShorts([])
+      // setVisibleCards([])
+    }
+  }
+
+  // useEffect(() => {
+  //   searchFindings(false)
+  // }, [])
+
   useEffect(() => {
+    handleEmptyResults()
+    // console.log('handleEmptyResults:', handleEmptyResults)
     if (localWord) {
       setFilteredShorts(filteredShorts);
       setFilteredCards(filteredCards);
       handleRendering()
+      handleEmptyResults()
     }
     else {
       setFilteredCards([])
@@ -103,6 +125,8 @@ function App() {
 
   function handleSearch(filterText) {
     if (filterText) {
+      // setIsResultEmpty(false);
+      // searchCompletion(false)
       searchResult(true);
       renderLoading(true);
       api
@@ -114,7 +138,9 @@ function App() {
           localStorage.setItem('filteredCards', JSON.stringify(filteredCards));
           const filteredShorts = filteredCards.filter((c) => c.duration <= 60);
           setFilteredShorts(filteredShorts);
-          handleRendering()
+          handleEmptyResults()
+          handleRendering();
+          // console.log('isResultEmpty:', isResultEmpty)
         })
         .catch((err) => {
           console.log(err);
@@ -123,7 +149,9 @@ function App() {
         .finally(()=>{
           setTimeout(()=>{
             renderLoading(false);
-          }, 200)})
+          }, 200);
+        }
+          )
     } else {
       searchResult(false)
     }
@@ -158,6 +186,7 @@ function App() {
           </SearchForm>
           <Preloader/>
           <MoviesCardList
+            // isResultEmpty={isResultEmpty}
             onExtendClick={handleExtendClick}
             isRequired={isRequired}
           >
@@ -168,6 +197,9 @@ function App() {
           </MoviesCardList>
           <SearchNotValid/>
           <SearchHasError/>
+          <SearchHasNoResults
+            // isResultEmpty={isResultEmpty}
+          />
           <Footer/>
         </Route>
         <Route path="/saved-movies">
