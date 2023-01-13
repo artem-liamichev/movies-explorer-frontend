@@ -31,7 +31,6 @@ export function searchResult(isValid) {
     document.querySelector(config.hasError).style.display = 'none';
     document.querySelector(config.notValid).style.display = 'flex';
     document.querySelector(config.hasNoResults).style.display = 'none';
-
   }
 }
 

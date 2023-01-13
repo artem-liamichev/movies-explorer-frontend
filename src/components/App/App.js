@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation} from 'react-router-dom';
 import './App.css';
 import LandingHeader from '../LandingHeader/LandingHeader.js';
 import Header from '../Header/Header.js';
@@ -32,6 +33,8 @@ import useMedia from '../../hooks/useMedia';
 
 function App() {
 
+  const { pathname } = useLocation()
+
   const [isChecked, setFilterChecked] = useState(JSON.parse(localStorage.getItem('isChecked')))
 
   const [initialCards, setInitialCards] = useState([]);
@@ -58,34 +61,6 @@ function App() {
   const isMobile = useMedia('(min-width: 320px) and (max-width: 500px)');  
   const squaresGrid = document.querySelector('.movies__list');
 
-  useEffect(() => {
-    const handleResize = () => {
-      // setWindowResizing(true)
-      // console.log(windowResizing)
-      let timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        // setWindowResizing(false);
-        // setWindowWidth(window.innerWidth);
-        console.log('windowResizing');
-      }, 1000)
-    }
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-    // useEffect(() => {
-    //   console.log('windowWidth:', windowWidth)
-    //   if (isDesktop) {
-    //     setCardQuantity(2);
-    //     console.log('cardQuantity:', cardQuantity)
-    //   } else if (isTablet) {
-    //     setCardQuantity(3);
-    //     console.log('cardQuantity:', cardQuantity)
-    //   } 
-
-    // }, [cardQuantity, isDesktop])
-
     useEffect(() => {
       if (isMobile) {
         setCardQuantity(5);
@@ -98,7 +73,6 @@ function App() {
       }
     }, [isMobile, cardQuantity, ExtendedCardQuantity])
 
-
     useEffect(() => {
       if (isTablet) {
         setCardQuantity(8);
@@ -108,7 +82,6 @@ function App() {
       }
     }, [isTablet, cardQuantity, ExtendedCardQuantity])
 
-
     useEffect(() => {
       if (isDesktop) {
         setCardQuantity(12);
@@ -117,92 +90,6 @@ function App() {
         squaresGrid.style.gridTemplateColumns = "1fr 1fr 1fr";
       }
     }, [isDesktop, cardQuantity, ExtendedCardQuantity])
-    // useLayoutEffect(() => {
-    //   if (isTablet) {
-    //     setCardQuantity(3);
-    //     console.log('cardQuantity:', cardQuantity)
-    //   } 
-    // }, [isTablet, window.innerWidth])
-
-    // useEffect(() => {
-    //   if (isMobile) {
-    //     setCardQuantity(2);
-    //     console.log('cardQuantity:', cardQuantity)
-    //   } 
-    // }, [isMobile, window.innerWidth])
-
-    // useEffect(() => {
-    //   setCardQuantity(cardQuantity);
-
-    // }, [])
-
-//   setWindowWidth(window.innerWidth)
-  // let timout;
-  // useEffect(() => {
-  //   window.addEventListener('resize', () => {
-  //     setTimeout(() => {
-  //       setWindowWidth();
-  //     }, 2000);
-  //   }
-  //   );
-  //   return () => {
-  //     window.removeEventListener("resize", setWindowWidth)
-  // }
-    // return (window.removeEventListener('resize', () => {
-        // clearTimeout(timout);
-        // timout = setTimeout(setWindowWidth)}, 2000));
-        // setTimeout(() => {
-        //   setWindowWidth();
-        // }, 2000);
-    
-      // }
-// , [windowWidth])
-
-
-  // function setWindowWidth () {
-  //   if (window.innerWidth < 1000) {
-  //     setCardQuantity(cardQuantity-1);
-  //     console.log('window.innerWidth < 1000', window.innerWidth )
-  //     console.log('cardQuantity:', cardQuantity)
-  //   } else {
-  //     setCardQuantity(cardQuantity-4);
-  //     console.log('window.innerWidth > 1000', window.innerWidth)
-  //     console.log('cardQuantity:', cardQuantity)
-  //   }
-  // }
-
-  // switch (windowWidth) {
-  //   case windowWidth=1000:
-  //     setCardQuantity(3);
-  //     console.log('window.innerWidth < 1000')
-  //     console.log('cardQuantity:', cardQuantity)
-  //     break;
-  //   case windowWidth=700:
-  //     setCardQuantity(6);
-  //     console.log('window.innerWidth > 1000')
-  //     console.log('cardQuantity:', cardQuantity)
-  //     break;
-  
-  //   default:
-  //     break;
-  // }
-
-  // const calculateCardQuantity
-
-  // const setWindowWidth = (wi) => {
-  //   calculateCardQuantity()
-  //   console.log('setCardQuantity:', cardQuantity)
-  //   if (window.innerWidth < 720) {
-  //     setCardQuantity(2)
-  //   } else {
-  //     setCardQuantity(4)
-  //   }
-  // }
-  // console.log('cardQuantity:',window.innerWidth, cardQuantity);
-
-
-
-
 
   function handleExtendClick() {
     if (isChecked) {
@@ -258,18 +145,20 @@ function App() {
 
 
   useEffect(() => {
-    handleEmptyResults()
-    // console.log('handleEmptyResults:', handleEmptyResults)
-    if (localWord) {
-      setFilteredShorts(filteredShorts);
-      setFilteredCards(filteredCards);
-      handleRendering()
-      handleEmptyResults()
-    }
-    else {
-      setFilteredCards([])
-      setFilteredShorts([])
-      setVisibleCards([])
+    // console.log('handleEmptyResults:', searchFindings);
+    if (pathname === '/movies' || pathname === '/saved-movies') {
+      handleEmptyResults();
+      if (localWord) {
+        setFilteredShorts(filteredShorts);
+        setFilteredCards(filteredCards);
+        handleRendering();
+        // handleEmptyResults();
+      }
+      else {
+        setFilteredCards([])
+        setFilteredShorts([])
+        setVisibleCards([])
+      }  
     }
   }, [isChecked, localWord])
 
@@ -358,9 +247,7 @@ function App() {
           </MoviesCardList>
           <SearchNotValid/>
           <SearchHasError/>
-          <SearchHasNoResults
-            // isResultEmpty={isResultEmpty}
-          />
+          <SearchHasNoResults          />
           <Footer></Footer>
         </Route>
         <Route path="/saved-movies">
@@ -373,12 +260,17 @@ function App() {
           >
             <FilterCheckbox/>
           </SearchForm>
-          <MoviesCardList>
+          <MoviesCardList
+            onExtendClick={handleExtendClick}
+            isRequired={isRequired}>
             {savedCards.map((card, index)=>{
                 return (<MoviesCard
                 card={card} key={index}/>)
               })}
           </MoviesCardList>
+          <SearchNotValid/>
+          <SearchHasError/>
+          <SearchHasNoResults/>
           <Footer/>
         </Route>
         <Route path="/profile">
