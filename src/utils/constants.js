@@ -14,6 +14,7 @@ export function renderLoading(isLoading) {
     document.querySelector(config.notValid).style.display = 'none';
     document.querySelector(config.hasNoResults).style.display = 'none';
     document.querySelector(config.moviesBlock).style.display = 'none';
+    document.querySelector(config.hasError).style.display = 'none';
   } else {
     document.querySelector(config.preloader).style.display = 'none';
     // document.querySelector(config.hasNoResults).style.display = 'flex';
@@ -27,7 +28,7 @@ export function searchResult(isValid) {
     document.querySelector(config.moviesBlock).style.display = 'flex';
   } else {
     document.querySelector(config.moviesBlock).style.display = 'none';
-    // document.querySelector(config.hasNoResults).style.display = 'none';
+    document.querySelector(config.hasError).style.display = 'none';
     document.querySelector(config.notValid).style.display = 'flex';
     document.querySelector(config.hasNoResults).style.display = 'none';
 

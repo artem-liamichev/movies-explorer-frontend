@@ -1,7 +1,6 @@
 import React from 'react';
 
 function SearchHasNoResults ({isResultEmpty}) {
-  console.log('SearchHasNoResultsisResultEmpty:', isResultEmpty)
   return (
     <div className="has-no-results"
     style={{display: isResultEmpty ? 'flex' : 'none' }} 

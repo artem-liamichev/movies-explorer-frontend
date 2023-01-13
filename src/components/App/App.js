@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import './App.css';
 import LandingHeader from '../LandingHeader/LandingHeader.js';
 import Header from '../Header/Header.js';
@@ -28,6 +28,7 @@ import { searchCompletion } from '../../utils/constants';
 import { searchFindings } from '../../utils/constants';
 import SearchHasError from '../SearchHasError/SearchHasError';
 import SearchHasNoResults from '../SearchHasNoResults/SearchHasNoResults';
+import useMedia from '../../hooks/useMedia';
 
 function App() {
 
@@ -45,41 +46,195 @@ function App() {
   
   const [isRequired, setExtendedResult] = useState(false);
 
-  // const [isResultEmpty, setIsResultEmpty] = useState(false) 
+  const [isResultEmpty, setIsResultEmpty] = useState(false);
 
-  const localWord = localStorage.getItem('inputValue')
+  const localWord = localStorage.getItem('inputValue');
+
+  const [cardQuantity, setCardQuantity] = useState(12);
+  const [ExtendedCardQuantity, setExtendedCardQuantity] = useState(3);
+  
+  const isDesktop = useMedia('(min-width: 931px)');
+  const isTablet = useMedia('(min-width: 501px) and (max-width: 930px)');  
+  const isMobile = useMedia('(min-width: 320px) and (max-width: 500px)');  
+  const squaresGrid = document.querySelector('.movies__list');
+
+  useEffect(() => {
+    const handleResize = () => {
+      // setWindowResizing(true)
+      // console.log(windowResizing)
+      let timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        // setWindowResizing(false);
+        // setWindowWidth(window.innerWidth);
+        console.log('windowResizing');
+      }, 1000)
+    }
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+    // useEffect(() => {
+    //   console.log('windowWidth:', windowWidth)
+    //   if (isDesktop) {
+    //     setCardQuantity(2);
+    //     console.log('cardQuantity:', cardQuantity)
+    //   } else if (isTablet) {
+    //     setCardQuantity(3);
+    //     console.log('cardQuantity:', cardQuantity)
+    //   } 
+
+    // }, [cardQuantity, isDesktop])
+
+    useEffect(() => {
+      if (isMobile) {
+        setCardQuantity(5);
+        setExtendedCardQuantity(2)
+        handleRendering();
+        console.log('squaresGrid.style.gridTemplateColumns:', squaresGrid.style.gridTemplateColumns)
+        squaresGrid.style.gridTemplateColumns = "1fr";
+        console.log('cardQuantity:', cardQuantity)
+
+      }
+    }, [isMobile, cardQuantity, ExtendedCardQuantity])
+
+
+    useEffect(() => {
+      if (isTablet) {
+        setCardQuantity(8);
+        setExtendedCardQuantity(2)
+        handleRendering()
+        squaresGrid.style.gridTemplateColumns = "1fr 1fr";
+      }
+    }, [isTablet, cardQuantity, ExtendedCardQuantity])
+
+
+    useEffect(() => {
+      if (isDesktop) {
+        setCardQuantity(12);
+        setExtendedCardQuantity(3)
+        handleRendering()
+        squaresGrid.style.gridTemplateColumns = "1fr 1fr 1fr";
+      }
+    }, [isDesktop, cardQuantity, ExtendedCardQuantity])
+    // useLayoutEffect(() => {
+    //   if (isTablet) {
+    //     setCardQuantity(3);
+    //     console.log('cardQuantity:', cardQuantity)
+    //   } 
+    // }, [isTablet, window.innerWidth])
+
+    // useEffect(() => {
+    //   if (isMobile) {
+    //     setCardQuantity(2);
+    //     console.log('cardQuantity:', cardQuantity)
+    //   } 
+    // }, [isMobile, window.innerWidth])
+
+    // useEffect(() => {
+    //   setCardQuantity(cardQuantity);
+
+    // }, [])
+
+//   setWindowWidth(window.innerWidth)
+  // let timout;
+  // useEffect(() => {
+  //   window.addEventListener('resize', () => {
+  //     setTimeout(() => {
+  //       setWindowWidth();
+  //     }, 2000);
+  //   }
+  //   );
+  //   return () => {
+  //     window.removeEventListener("resize", setWindowWidth)
+  // }
+    // return (window.removeEventListener('resize', () => {
+        // clearTimeout(timout);
+        // timout = setTimeout(setWindowWidth)}, 2000));
+        // setTimeout(() => {
+        //   setWindowWidth();
+        // }, 2000);
+    
+      // }
+// , [windowWidth])
+
+
+  // function setWindowWidth () {
+  //   if (window.innerWidth < 1000) {
+  //     setCardQuantity(cardQuantity-1);
+  //     console.log('window.innerWidth < 1000', window.innerWidth )
+  //     console.log('cardQuantity:', cardQuantity)
+  //   } else {
+  //     setCardQuantity(cardQuantity-4);
+  //     console.log('window.innerWidth > 1000', window.innerWidth)
+  //     console.log('cardQuantity:', cardQuantity)
+  //   }
+  // }
+
+  // switch (windowWidth) {
+  //   case windowWidth=1000:
+  //     setCardQuantity(3);
+  //     console.log('window.innerWidth < 1000')
+  //     console.log('cardQuantity:', cardQuantity)
+  //     break;
+  //   case windowWidth=700:
+  //     setCardQuantity(6);
+  //     console.log('window.innerWidth > 1000')
+  //     console.log('cardQuantity:', cardQuantity)
+  //     break;
+  
+  //   default:
+  //     break;
+  // }
+
+  // const calculateCardQuantity
+
+  // const setWindowWidth = (wi) => {
+  //   calculateCardQuantity()
+  //   console.log('setCardQuantity:', cardQuantity)
+  //   if (window.innerWidth < 720) {
+  //     setCardQuantity(2)
+  //   } else {
+  //     setCardQuantity(4)
+  //   }
+  // }
+  // console.log('cardQuantity:',window.innerWidth, cardQuantity);
+
+
+
+
 
   function handleExtendClick() {
     if (isChecked) {
-      if (visibleCards.length > filteredShorts.length-4) {
+      if (visibleCards.length > filteredShorts.length-(ExtendedCardQuantity+1)) {
         setExtendedResult(false)
       }
-      setVisibleCards(filteredShorts.slice(0, visibleCards.length+3));
+      setVisibleCards(filteredShorts.slice(0, visibleCards.length+ExtendedCardQuantity));
     } else {
-      if (visibleCards.length > filteredCards.length-4) {
+      if (visibleCards.length > filteredCards.length-(ExtendedCardQuantity+1)) {
         setExtendedResult(false)
       }
-      setVisibleCards(filteredCards.slice(0, visibleCards.length+3));
+      setVisibleCards(filteredCards.slice(0, visibleCards.length+ExtendedCardQuantity));
       }
   }
 
   function handleRendering() {
     if (!isChecked) {
-      if (filteredCards.length <= 6) {
+      if (filteredCards.length <= cardQuantity) {
         setVisibleCards(filteredCards)
         setExtendedResult(false)
       } else {
         setExtendedResult(true)
-        setVisibleCards(filteredCards.slice(0,6));
+        setVisibleCards(filteredCards.slice(0,cardQuantity));
         };  
     }
      else {
-      if (filteredShorts.length <= 6) {
+      if (filteredShorts.length <= cardQuantity) {
         setVisibleCards(filteredShorts);
         setExtendedResult(false)
       } else {
         setExtendedResult(true)
-        setVisibleCards(filteredShorts.slice(0,6));
+        setVisibleCards(filteredShorts.slice(0,cardQuantity));
       }      
     }
   }
@@ -98,6 +253,9 @@ function App() {
   // useEffect(() => {
   //   searchFindings(false)
   // }, [])
+
+
+
 
   useEffect(() => {
     handleEmptyResults()
@@ -173,6 +331,9 @@ function App() {
           </main> 
         </Route>
         <Route path="/movies">
+        {/* {isDesktop && !isTablet && !isMobile <h1>Desktop</h1>}
+        {isTablet && <h1>Tablet medium screen</h1>}
+        {isMobile && <h1>Small screen</h1>} */}
           <Header 
             isOpen={isMenuOpen}
             onMenuClick={handleMenuClick}
@@ -200,7 +361,7 @@ function App() {
           <SearchHasNoResults
             // isResultEmpty={isResultEmpty}
           />
-          <Footer/>
+          <Footer></Footer>
         </Route>
         <Route path="/saved-movies">
           <Header 

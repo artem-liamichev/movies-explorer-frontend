@@ -2,7 +2,6 @@ import React from 'react';
 import '../App/App.js';
 
 function MoviesCardList({children, onExtendClick, isRequired, isResultEmpty}) {
-    console.log('MoviesCardListisResultEmpty:', isResultEmpty)
 
   return (
     <div className='movies'
