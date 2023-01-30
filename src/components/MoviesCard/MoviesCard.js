@@ -1,9 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation} from 'react-router-dom';
 
 
-function MoviesCard({card}) {
- 
+function MoviesCard({card, onCardLike, onCardDelete, likedCards}) { 
+// console.log('likedCards:', likedCards)
+// console.log('card:', card)
+
+    const isLiked = likedCards.some(i => i.movieId === card.id);
+    // console.log('likedCardsisLiked:', card.id, isLiked)
+
+    
+//   const [isLiked, setCardLike] = useState(false);
+    
+
+//     useEffect(() => {
+//         if (card.id)
+//         tokenCheck();
+//         }, []);
+
+
   const { pathname } = useLocation()
   const deleteButtonRef = React.useRef();
   
@@ -14,13 +29,17 @@ function MoviesCard({card}) {
       deleteButtonRef.current.style.display = 'none'
   }
 
-  const [isCardLiked, setCardLike] = useState(false);
   
   function handleLikeClick() {
-    setCardLike((isCardLiked) => !isCardLiked);
+    // setCardLike((isCardLiked) => !isCardLiked);
+    onCardLike(card)
     }
 
-  const cardLikeButtonClassName = (`card__like-button ${isCardLiked ? 'card__like-button_active': 'card__like-button_disabled'}`); 
+function handleDeleteClick() {
+    onCardDelete(card._id);
+    }
+  
+  const cardLikeButtonClassName = (`card__like-button ${isLiked ? 'card__like-button_active': 'card__like-button_disabled'}`); 
 
 
   return (
@@ -48,13 +67,26 @@ function MoviesCard({card}) {
       </article>)}
 
       {pathname==='/saved-movies' && (<article className="card" onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
-        <img src={card.link} alt={card.name} className="card__image"/>
+        <a className="card__link" href={card.trailerLink} target="_blank"><img src={card.image} alt={card.nameRU} className="card__image"/></a>
         <div className="card__info">
             <div className='card__data'>
-                <h2 className="card__name">{card.name}</h2>
-                <p className='card__length'>{card.length}</p>
+                <h2 className="card__name">{card.nameRU}</h2>
+                <p className='card__length'>{
+                    (() => {
+                        if ((card.duration > 59) && ((card.duration % 60 !== 0))) {
+                            return `${Math.floor(card.duration / 60)}ч ${card.duration % 60}м`
+                        } else if ((card.duration % 60 === 0)) {
+                            return `${Math.floor(card.duration / 60)}ч` 
+                        } else {
+                            return `${card.duration % 60}м` 
+                        }
+                    })()
+                    }
+                </p>
             </div>
-            <button className="button card__delete-button" ref={deleteButtonRef} type="button"></button>
+            <button className="button card__delete-button" ref={deleteButtonRef} type="button"
+                onClick={handleDeleteClick}
+            ></button>
         </div>
       </article>)}
     </li>

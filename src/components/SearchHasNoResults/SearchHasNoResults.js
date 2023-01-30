@@ -1,10 +1,9 @@
 import React from 'react';
 
-function SearchHasNoResults ({isResultEmpty}) {
+// console.log('REPA SearchHasNoResults isResultEmpty:', isResultEmpty)
+function SearchHasNoResults () {
   return (
-    <div className="has-no-results"
-    style={{display: isResultEmpty ? 'flex' : 'none' }} 
-    >
+    <div className="has-no-results">
       <h3 className="has-no-results__title">Ничего не найдено</h3>
     </div>
   )

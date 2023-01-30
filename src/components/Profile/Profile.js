@@ -1,33 +1,142 @@
+import { useForm } from "react-hook-form";
 import React, { useState } from "react";
-function Profile() {
+import { Link, useLocation} from 'react-router-dom';
+import { CurrenUserContext } from '../../contexts/CurrentUserContext';
 
-    const [loginData, setLoginData] = useState ({
-        name: 'Vitaliy',
-        email: '12@mail.ru',
-    })
+function Profile({ isUpdateUserFailed, isUpdateUserCompleted, onLogout, onUpdateUser }) {
+    const { register, reset, handleSubmit, setValue, watch, formState: {isDirty, isValid, errors, ...formState } } = useForm({mode: 'onChange'});
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setLoginData({
-            ...loginData,
-            [name]: value,
-        })
+    const currentUser = React.useContext(CurrenUserContext);
+
+    const [userName, setUserName] = useState('') 
+    const [userEmail, setUserEmail] = useState('') 
+
+    const editButton = document.querySelector('.profile__edit')
+    const saveButton = document.querySelector('.profile__save')
+
+    const currentName = watch("name");
+    const currentEmail = watch("email");
+
+    console.log('currentName:', currentName)
+
+    React.useEffect(() => {
+        // setValue([
+        //     { name: currentUser.name }, 
+        //     { email: currentUser.email }
+        // ]);
+        setValue('name', currentUser.name);
+        setValue('email', currentUser.email);
+        
+      }, [currentUser]); 
+    //   console.log('currentUser:', currentUser)
+
+    // function handleChangeUserName(e) {
+    //     setUserName(e.target.value)
+    // }
+
+    // function handleChangeUserEmail(e) {
+    //     setUserEmail(e.target.value)
+    // }
+
+    console.log('errors?.email?.message:', errors.email)
+    console.log('errors?.email?.message:', currentUser.name, )
+
+
+    // !(errors.name?.message || errors.email?.message) {
+    //     editButton.display = "none";
+    // }
+
+    function handleEditClick() {
+        document.querySelectorAll('.profile__input')[0].disabled = false;
+        document.querySelectorAll('.profile__input')[1].disabled = false;
+        document.querySelectorAll('.profile__input')[0].style.backgroundColor = '#394e55';
+        document.querySelectorAll('.profile__input')[1].style.backgroundColor = '#394e55';
     }
 
     return (
     <article>
-        <form className="profile" noValidate>
-            <h3 className="profile__title">Привет, {loginData.name}!</h3>
+        <form autoComplete="off" onSubmit={handleSubmit((data, e) => {
+            console.log('handleSubmitdata:', data)
+            e.preventDefault();
+            onUpdateUser(data); 
+            document.querySelectorAll('.profile__input')[0].disabled = true;
+            document.querySelectorAll('.profile__input')[1].disabled = true;
+            document.querySelectorAll('.profile__input')[0].style.backgroundColor = '#202020';
+            document.querySelectorAll('.profile__input')[1].style.backgroundColor = '#202020';
+                reset();
+            })}
+            className="profile">
+            <h3 className="profile__title"
+                                style={{display: `${(isUpdateUserCompleted || isUpdateUserFailed ) ? 'none' : ''}`}} 
+            >Привет, {currentUser.name}!</h3>
+            {isUpdateUserCompleted && (<h2 className="tooltip__title">Вы успешно обновили данные!</h2>)}
+            {isUpdateUserFailed && (<h2 className="tooltip__title">Что-то пошло не так!</h2>)}
+
                 <label className="input-label">
                     <span className="input-title">Имя</span>
-                    <input onChange={handleChange} readOnly="readOnly" autoComplete="off" value={loginData.name} className="profile__input" name="name" type="text" placeholder="Имя" required minLength="2" maxLength="30" />
+                    <input 
+                        {...register("name", { 
+                            required: "Это обязательное поле",  
+                            pattern: {
+                                value: /^[a-zа-яё -]+$/i, 
+                                message: "Имя должно быть валидным",
+                            },
+                            onChange: (e) => {setUserName(e.target.value)}
+                        })}
+                        className={`profile__input input ${errors?.name?.message ? 'error': ''}`}
+                        // onChange={handleChangeUserName}
+                        // readOnly="readOnly"
+                        autoComplete="off" 
+                        // value={userName} 
+                        // value={userName || ''}
+                        placeholder="Имя" 
+                        disabled={true}
+                        />
+                    {errors.name?.message &&
+                        <p className="error-message profile-input-error">{errors.name?.message}</p>
+                    }
                 </label>
                 <label className="input-label">   
                     <span className="input-title">E-mail</span>
-                    <input onChange={handleChange} readOnly="readOnly" autoComplete="off" value={loginData.email} className="profile__input" name="email" type="email" placeholder="Email" required />
+                    <input
+                        {...register("email", { 
+                            required: "Это обязательное поле", 
+                            pattern: {
+                                value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 
+                                message: "Email должен быть валидным адресом электронной почты",
+                            },
+                            onChange: (e) => {setUserEmail(e.target.value)}
+                            // value: {userEmail}
+                            })
+                        }
+                        className={`profile__input input ${errors?.email?.message ? 'error': ''}`}
+                        placeholder="E-mail"
+                        // onChange={handleChangeUserEmail} 
+                        autoComplete="off" 
+                        // value={userEmail} 
+                        // type="email"     
+                        disabled={true}
+                        />
+                    {errors.email?.message &&
+                        <p className="error-message profile-input-error">{errors.email?.message}</p>
+                    }
                 </label>
-            <button className="profile__edit button" type="button">Редактировать</button>
-            <button className="profile__sign-out button" type="submit">Выйти из аккаунта</button>
+
+
+            <button onClick={handleEditClick} 
+                style={{display: `${(errors.name?.message || errors.email?.message || ((currentUser.name===currentName)&(currentUser.email===currentEmail)))? 'block' : 'none'}`}} 
+                className="profile__edit button" type="button">Редактировать</button>
+
+            <button
+                style={{display: `${(!(errors.name?.message || errors.email?.message) & !((currentUser.name===currentName)&(currentUser.email===currentEmail)))? 'block' : 'none'}`}} 
+                className="profile__save button" type="submit">Сохранить</button>
+
+            {/* {(!(errors.name?.message || errors.email?.message) & !((currentUser.name===currentName)&(currentUser.email===currentEmail))) &&
+            <button onClick={handleEditClick} className="profile__save button" type="submit">Сохранить</button>
+            } */}
+            <Link to="/signin">
+                <button onClick={onLogout} className="profile__sign-out button" type="button">Выйти из аккаунта</button>
+            </Link>
         </form>
     </article>
 )}

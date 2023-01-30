@@ -25,7 +25,7 @@ export function renderLoading(isLoading) {
 export function searchResult(isValid) {
   if (isValid) {
     document.querySelector(config.notValid).style.display = 'none';
-    document.querySelector(config.moviesBlock).style.display = 'flex';
+    // document.querySelector(config.moviesBlock).style.display = 'flex';
   } else {
     document.querySelector(config.moviesBlock).style.display = 'none';
     document.querySelector(config.hasError).style.display = 'none';

@@ -25,7 +25,7 @@ class Api {
       })
         .then(this._checkServerResponse)
     }
-  
+
    }
   
    export const api = new Api('https://api.nomoreparties.co/beatfilm-movies')

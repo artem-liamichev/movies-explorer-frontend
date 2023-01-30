@@ -1,34 +1,51 @@
+import { useForm } from "react-hook-form";
 import React, { useState } from "react";
-function Login() {
-
-    const [loginData, setLoginData] = useState ({
-        name: 'Vitaliy',
-        email: '12@mail.ru',
-    })
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setLoginData({
-            ...loginData,
-            [name]: value,
-        })
-    }
+function Login({ onLogin }) {
+    const { register, reset, handleSubmit, formState: {isDirty, isValid, errors, ...formState } } = useForm({mode: 'onChange'});
 
     return (
-        <form className="login" noValidate>
+        <form autoComplete="off" onSubmit={handleSubmit((data, e) => {
+            console.log('handleSubmitdata:', data)
+            e.preventDefault();
+            onLogin(data); 
+            reset();
+            })}
+            className="login">
             <div className="login__intro">
                 <a className="login__logo logo link" href="/"></a>
                 <h3 className="login__title">Рады видеть!</h3>
             </div>
             <label className="login__input-label">
                 <span className="login__input-title">E-mail</span>
-                <input className="login__input" onChange={handleChange} autoComplete="off" value={loginData.email} name="email" type="email" placeholder="E-mail" required minLength="2" maxLength="30" />
+                <input 
+                    {...register("email", { 
+                        required: "Это обязательное поле", 
+                        pattern: {
+                            value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 
+                            message: "Email должен быть валидным адресом электронной почты",
+                        }
+                        })
+                    }
+                    className={`login__input input ${errors?.email?.message ? 'error': ''}`}
+                    placeholder="E-mail"
+                    // className="login__input" onChange={handleChange} autoComplete="off" value={loginData.email} name="email" type="email" placeholder="E-mail" required minLength="2" maxLength="30" 
+                    />
+                <p className="error-message">{errors.email?.message}</p>            
             </label>
             <label className="login__input-label">
                 <span className="login__input-title">Пароль</span>
-                <input className="login__input" onChange={handleChange} autoComplete="off" value={loginData.password} name="password" type="password" placeholder="Пароль" required minLength="2" maxLength="30" />
+                <input
+                    {...register('password', { 
+                        required: 'Это обязательное поле' })}                        
+                        className={`register__input input ${errors?.password?.message ? 'error': ''}`}
+                        type="password" placeholder="Пароль"
+                    // className="login__input" onChange={handleChange} autoComplete="off" value={loginData.password} name="password" type="password" placeholder="Пароль" required minLength="2" maxLength="30" 
+                    />
+                {errors.password?.message && <p className="error-message">{errors.password?.message}</p>}            
+                
             </label>
-            <button className="login__submit button" type="submit">Войти</button>
+            <button disabled={!isDirty || !isValid} className={`login__submit button ${(!isDirty || !isValid) ? 'invalid': ''}`} type="submit">Войти</button>
+            {/* <button className="login__submit button" type="submit">Войти</button> */}
             <p className="login__subline">Ещё не зарегистрированы? <a className="signup-link link" href="/signup">Регистрация</a></p>
         </form>
 )}

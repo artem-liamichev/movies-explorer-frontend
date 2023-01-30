@@ -55,8 +55,15 @@
     background-color: transparent;
     border: none
 }
-.profile__edit:hover{
-    cursor: pointer;
+.profile__save {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFFFFF;
+    background-color: transparent;
+    border: none
 }
 .profile__sign-out {
     font-style: normal;
@@ -71,6 +78,10 @@
 }
 .profile__sign-out:hover{
     cursor: pointer;
+}
+.profile-input-error {  
+	grid-column: span 2;
+    text-align: end;
 }
 
 @media screen and (max-width: 930px) {

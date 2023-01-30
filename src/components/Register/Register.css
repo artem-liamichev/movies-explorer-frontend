@@ -1,3 +1,12 @@
+.input.error {
+    color: red;
+}
+.button.invalid {
+    background-color: rgba(119, 165, 161, 0.993)
+}
+.error-message {
+    color: red;
+}
 .register {
     margin: auto;
     margin-top: 70px;
