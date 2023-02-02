@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import React, { useState } from "react";
-import { Link, useLocation} from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { CurrenUserContext } from '../../contexts/CurrentUserContext';
 
 function Profile({ isUpdateUserFailed, isUpdateUserCompleted, onLogout, onUpdateUser }) {
@@ -11,40 +11,16 @@ function Profile({ isUpdateUserFailed, isUpdateUserCompleted, onLogout, onUpdate
     const [userName, setUserName] = useState('') 
     const [userEmail, setUserEmail] = useState('') 
 
-    const editButton = document.querySelector('.profile__edit')
-    const saveButton = document.querySelector('.profile__save')
-
     const currentName = watch("name");
     const currentEmail = watch("email");
 
     console.log('currentName:', currentName)
 
     React.useEffect(() => {
-        // setValue([
-        //     { name: currentUser.name }, 
-        //     { email: currentUser.email }
-        // ]);
         setValue('name', currentUser.name);
         setValue('email', currentUser.email);
         
       }, [currentUser]); 
-    //   console.log('currentUser:', currentUser)
-
-    // function handleChangeUserName(e) {
-    //     setUserName(e.target.value)
-    // }
-
-    // function handleChangeUserEmail(e) {
-    //     setUserEmail(e.target.value)
-    // }
-
-    console.log('errors?.email?.message:', errors.email)
-    console.log('errors?.email?.message:', currentUser.name, )
-
-
-    // !(errors.name?.message || errors.email?.message) {
-    //     editButton.display = "none";
-    // }
 
     function handleEditClick() {
         document.querySelectorAll('.profile__input')[0].disabled = false;
@@ -84,11 +60,7 @@ function Profile({ isUpdateUserFailed, isUpdateUserCompleted, onLogout, onUpdate
                             onChange: (e) => {setUserName(e.target.value)}
                         })}
                         className={`profile__input input ${errors?.name?.message ? 'error': ''}`}
-                        // onChange={handleChangeUserName}
-                        // readOnly="readOnly"
                         autoComplete="off" 
-                        // value={userName} 
-                        // value={userName || ''}
                         placeholder="Имя" 
                         disabled={true}
                         />
@@ -106,22 +78,17 @@ function Profile({ isUpdateUserFailed, isUpdateUserCompleted, onLogout, onUpdate
                                 message: "Email должен быть валидным адресом электронной почты",
                             },
                             onChange: (e) => {setUserEmail(e.target.value)}
-                            // value: {userEmail}
                             })
                         }
                         className={`profile__input input ${errors?.email?.message ? 'error': ''}`}
                         placeholder="E-mail"
-                        // onChange={handleChangeUserEmail} 
                         autoComplete="off" 
-                        // value={userEmail} 
-                        // type="email"     
                         disabled={true}
                         />
                     {errors.email?.message &&
                         <p className="error-message profile-input-error">{errors.email?.message}</p>
                     }
                 </label>
-
 
             <button onClick={handleEditClick} 
                 style={{display: `${(errors.name?.message || errors.email?.message || ((currentUser.name===currentName)&(currentUser.email===currentEmail)))? 'block' : 'none'}`}} 
@@ -131,10 +98,7 @@ function Profile({ isUpdateUserFailed, isUpdateUserCompleted, onLogout, onUpdate
                 style={{display: `${(!(errors.name?.message || errors.email?.message) & !((currentUser.name===currentName)&(currentUser.email===currentEmail)))? 'block' : 'none'}`}} 
                 className="profile__save button" type="submit">Сохранить</button>
 
-            {/* {(!(errors.name?.message || errors.email?.message) & !((currentUser.name===currentName)&(currentUser.email===currentEmail))) &&
-            <button onClick={handleEditClick} className="profile__save button" type="submit">Сохранить</button>
-            } */}
-            <Link to="/signin">
+            <Link to="/">
                 <button onClick={onLogout} className="profile__sign-out button" type="button">Выйти из аккаунта</button>
             </Link>
         </form>

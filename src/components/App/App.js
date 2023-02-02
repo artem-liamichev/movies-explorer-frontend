@@ -22,7 +22,6 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import SearchNotValid from '../SearchNotValid/SearchNotValid';
-import {savedCards} from '../../utils/savedCards';
 import { api } from '../../utils/MoviesApi';
 import { renderLoading } from '../../utils/constants';
 import { searchResult } from '../../utils/constants';
@@ -39,50 +38,27 @@ import { mainApi } from '../../utils/MainApi';
 function App() {
 
   const { pathname } = useLocation()
-
   const [isChecked, setFilterChecked] = useState(JSON.parse(localStorage.getItem('isChecked')))
-
-  const [initialCards, setInitialCards] = useState([]);
-
-  const [testCards, setTestCards] = useState([]);
-
-
   const [filteredCards, setFilteredCards] = useState(JSON.parse(localStorage.getItem('filteredCards')));
-  
   const [visibleCards, setVisibleCards] = useState([]);
-
   const [filteredShorts, setFilteredShorts] = useState(filteredCards.filter((c) => c.duration <= 60));
-
   const [isMenuOpen, setMenuOpen] = useState(false);
-  
   const [isRequired, setExtendedResult] = useState(false);
-
-  const [isResultEmpty, setIsResultEmpty] = useState(false);
-
   const localWord = localStorage.getItem('inputValue');
-
   const [cardQuantity, setCardQuantity] = useState(12);
   const [ExtendedCardQuantity, setExtendedCardQuantity] = useState(3);
   const [cards, setCards] = useState([]);
-
   const [likedCards, setLikedCards] = useState([]);
-
   const isDesktop = useMedia('(min-width: 931px)');
   const isTablet = useMedia('(min-width: 501px) and (max-width: 930px)');  
   const isMobile = useMedia('(min-width: 320px) and (max-width: 500px)');  
   const squaresGrid = document.querySelector('.movies__list');
-
   const [currentUser, setCurrentUser] = useState({});
-
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
-
   const [isUpdateUserFailed, setIsUpdateUserFailed] = useState(false);
   const [isUpdateUserCompleted, setIsUpdateUserCompleted] = useState(false);
-
   const [isLoggedIn, setLoggedIn] = useState(false);
-  console.log('isLoggedIn:', isLoggedIn)
-
   const history = useHistory();
 
   const jwt = localStorage.getItem('jwt');
@@ -99,7 +75,6 @@ function App() {
           setUserEmail(res.email);
           setUserName(res.name);
           setLoggedIn(true);
-          // history.push("/movies")
         }})
       .catch((err) => {
         console.log(err);
@@ -123,22 +98,17 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-        // setRegisterFailPopup(true)
       }) 
     }
 
   const onRegister = (data) => {
-    // console.log('onRegisterdata:', data)
     return mainApi
       .register(data)
       .then(() => {
-        console.log('mainApidata:', data)
-        // setRegisterSuccessPopupOpen(true)
         history.push('/signin');
       })
       .catch((err) => {
         console.log(err);
-        // setRegisterFailPopup(true)
       }) }
 
   const onLogout = () => {
@@ -180,11 +150,7 @@ function App() {
       if (isMobile) {
         setCardQuantity(5);
         setExtendedCardQuantity(2)
-        // handleRendering();
-        console.log('squaresGrid.style.gridTemplateColumns:', squaresGrid.style.gridTemplateColumns)
         squaresGrid.style.gridTemplateColumns = "1fr";
-        console.log('cardQuantity:', cardQuantity)
-
       }
     }, [isMobile, cardQuantity, ExtendedCardQuantity])
 
@@ -192,7 +158,6 @@ function App() {
       if (isTablet) {
         setCardQuantity(8);
         setExtendedCardQuantity(2)
-        // handleRendering()
         squaresGrid.style.gridTemplateColumns = "1fr 1fr";
       }
     }, [isTablet, cardQuantity, ExtendedCardQuantity])
@@ -201,7 +166,6 @@ function App() {
       if (isDesktop) {
         setCardQuantity(12);
         setExtendedCardQuantity(3)
-        // handleRendering()
         squaresGrid.style.gridTemplateColumns = "1fr 1fr 1fr";
       }
     }, [isDesktop, cardQuantity, ExtendedCardQuantity])
@@ -221,8 +185,6 @@ function App() {
   }
 
   useEffect(() => {
-    // setFilteredCards(filteredCards)
-    console.log('REPA useEffectfilteredCards:', filteredCards)
     handleRendering() 
   }, [filteredCards, isChecked]);
 
@@ -230,15 +192,9 @@ function App() {
   function handleRendering() {
     const filteredShorts = filteredCards.filter((c) => c.duration <= 60);
     setFilteredShorts(filteredShorts);
-    console.log('REPA handleSearch-filteredShorts:', filteredShorts)
-
-    console.log('REPA handleRendering-filteredCards:', filteredCards)
-    // setFilteredCards(JSON.parse(localStorage.getItem('filteredCards')));
     if (!isChecked) {
-            // console.log('isChecked:', isChecked)
       if (filteredCards.length <= cardQuantity) {
         setVisibleCards(filteredCards)
-        // console.log('visibleCards:', visibleCards)
         setExtendedResult(false)
       } else {
         setExtendedResult(true)
@@ -247,7 +203,6 @@ function App() {
     }
      else {
       if (filteredShorts.length <= cardQuantity) {
-        // console.log('filteredShorts:', filteredShorts)
         setVisibleCards(filteredShorts);
         setExtendedResult(false)
       } else {
@@ -257,39 +212,10 @@ function App() {
     }
   }
 
-  function handleEmptyResults() {
-    console.log('REPA handleEmptyResults:', handleEmptyResults)
-    if ((filteredCards.length>0)||(localWord.length===0)) {
-      searchFindings(false);
-    } else {
-      searchFindings(true);
-    }
-  }
-
-  // function handleCardLike(newCard) {
-  //   const card = newCard.card
-  //   console.log('likedCards:', likedCards)
-  //   mainApi.addCard(card) 
-  //     .then((card)=> {
-  //       setLikedCards([...likedCards, card]); 
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     })
-  // }
-
   function handleCardLike(card) {
     console.log('card:', card)
     const isLiked = likedCards.some(i => i.movieId === card.id);
-    // const movieId = likedCards.filter((c))
-
     const savedCard = likedCards.filter((c) => c.movieId === card.id);
-    console.log('Testcard:', savedCard)
-    // console.log('Testcard._id:', Testcard[0]._id)
-
-    // console.log('movieId:', movieId)
-    // console.log('likedcardmovieId:', likedCards[0].movieId)
-    console.log('isLiked:', isLiked)
     if (isLiked) {
       const movieId = savedCard[0]._id;
       mainApi.deleteCard(movieId)
@@ -301,8 +227,6 @@ function App() {
         console.log(err);
     })
     } else {
-      // const card = newCard.card
-      // console.log('likedCards:', likedCards)
       mainApi.addCard(card) 
         .then((card)=> {
           setLikedCards([...likedCards, card]); 
@@ -314,7 +238,6 @@ function App() {
 }
 
   function handleCardDelete(movieId) {
-    console.log('handleCardDeletemovieId:', movieId)
     mainApi.deleteCard(movieId)
     .then(() => {
       const newCards = likedCards.filter((c) => c._id !== movieId);
@@ -324,16 +247,11 @@ function App() {
       console.log(err);
   }) }
 
-
   useEffect(() => {
-    // console.log('handleEmptyResults:', searchFindings);
     if (pathname === '/movies' || pathname === '/saved-movies') {
-      // handleEmptyResults();
       if (localWord) {
         setFilteredShorts(filteredShorts);
         setFilteredCards(filteredCards);
-        // 
-        // handleEmptyResults();
       }
       else {
         setFilteredCards([])
@@ -375,10 +293,6 @@ function App() {
     setLikedCards()
     }
 
-
-  console.log('REPA searchResult:', searchResult)
-  
-  // console.log('REPA filteredCards:', filteredCards)
   function handleSearch(filterText) {
     if (filterText) {
       searchResult(true);
@@ -386,7 +300,6 @@ function App() {
         api
         .getInitialCards()
         .then((initialCards) => {
-          // setInitialCards(initialCards);
           const filteredCards = initialCards.filter((card) => card.nameRU.toLowerCase().includes(filterText)||card.nameEN.toLowerCase().includes(filterText))
           localStorage.setItem('filteredCards', JSON.stringify(filteredCards));
           console.log('REPA handleSearch-filteredCards:', filteredCards)
@@ -396,13 +309,6 @@ function App() {
           } else {
             searchFindings(true);
           }
-      
-          // const filteredShorts = filteredCards.filter((c) => c.duration <= 60);
-          // setFilteredShorts(filteredShorts);
-          // console.log('REPA handleSearch-filteredShorts:', filteredShorts)
-          // setTestCards([1,2,3]);          
-          // handleEmptyResults()
-          // handleRendering();
         })
         .catch((err) => {
           console.log(err);
@@ -418,41 +324,6 @@ function App() {
     else {
       searchResult(false)
     }
-
-    // function handleRendering() {
-
-    //   console.log('rendiring befor super - filteredCards:', filteredCards)
-    //   const superCards = JSON.parse(localStorage.getItem('filteredCards'))
-    //   setFilteredCards(superCards);
-    //   setFilteredCards(filteredCards => ([...filteredCards, ...superCards]));
-
-    //   console.log('superCards:', superCards)
-    //   console.log('handleRendering-filteredCards:', filteredCards)
-    //   // setFilteredCards(JSON.parse(localStorage.getItem('filteredCards')));
-    //   if (!isChecked) {
-    //           // console.log('isChecked:', isChecked)
-    //     if (filteredCards.length <= cardQuantity) {
-    //       setVisibleCards(filteredCards)
-    //       // console.log('visibleCards:', visibleCards)
-    //       setExtendedResult(false)
-    //     } else {
-    //       setExtendedResult(true)
-    //       setVisibleCards(filteredCards.slice(0,cardQuantity));
-    //       };  
-    //   }
-    //    else {
-    //     if (filteredShorts.length <= cardQuantity) {
-    //       // console.log('filteredShorts:', filteredShorts)
-    //       setVisibleCards(filteredShorts);
-    //       setExtendedResult(false)
-    //     } else {
-    //       setExtendedResult(true)
-    //       setVisibleCards(filteredShorts.slice(0,cardQuantity));
-    //     }      
-    //   }
-    // }
-  
-
 }
 
   return (
@@ -491,7 +362,6 @@ function App() {
           </SearchForm>
           <Preloader/>
           <MoviesCardList
-            isResultEmpty={isResultEmpty}
             onExtendClick={handleExtendClick}
             isRequired={isRequired}
           >
@@ -508,7 +378,7 @@ function App() {
           <SearchHasNoResults/>
           <Footer/>
         </ProtectedRoute>
-        <ProtectedRoute path="/saved-movies">
+        <ProtectedRoute path="/saved-movies" isLoggedIn={isLoggedIn}>
           <Header 
             isOpen={isMenuOpen}
             onSavedMoviesClick={handleSavedMoviesClick}
@@ -523,8 +393,7 @@ function App() {
           </SearchForm>
           <Preloader/>
           <MoviesCardList
-            onExtendClick={handleExtendClick}
-            isRequired={isRequired}>
+            onExtendClick={handleExtendClick}>
             {likedCards.map((card, index)=>{
                 return (<MoviesCard
                 card={card} key={index}
@@ -535,9 +404,7 @@ function App() {
           </MoviesCardList>
           <SearchNotValid/>
           <SearchHasError/>
-          <SearchHasNoResults
-            isResultEmpty={isResultEmpty}
-            />
+          <SearchHasNoResults/>
           <Footer/>
         </ProtectedRoute>
         <ProtectedRoute 
@@ -557,10 +424,12 @@ function App() {
             />
         </ProtectedRoute>
         <Route path="/signup">
-          <Register onRegister={onRegister}/>
+            {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/signup"/>}
+            <Register onRegister={onRegister}/>
         </Route>
-        <Route path="/signin">
-          <Login onLogin={onLogin}/>
+        <Route>
+            {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/signin"/>}
+            <Login onLogin={onLogin}/>
         </Route>
         <Route path='*'>
             <PageNotFound />

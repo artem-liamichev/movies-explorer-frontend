@@ -28,7 +28,6 @@ function Login({ onLogin }) {
                     }
                     className={`login__input input ${errors?.email?.message ? 'error': ''}`}
                     placeholder="E-mail"
-                    // className="login__input" onChange={handleChange} autoComplete="off" value={loginData.email} name="email" type="email" placeholder="E-mail" required minLength="2" maxLength="30" 
                     />
                 <p className="error-message">{errors.email?.message}</p>            
             </label>
@@ -39,13 +38,11 @@ function Login({ onLogin }) {
                         required: 'Это обязательное поле' })}                        
                         className={`register__input input ${errors?.password?.message ? 'error': ''}`}
                         type="password" placeholder="Пароль"
-                    // className="login__input" onChange={handleChange} autoComplete="off" value={loginData.password} name="password" type="password" placeholder="Пароль" required minLength="2" maxLength="30" 
                     />
                 {errors.password?.message && <p className="error-message">{errors.password?.message}</p>}            
                 
             </label>
             <button disabled={!isDirty || !isValid} className={`login__submit button ${(!isDirty || !isValid) ? 'invalid': ''}`} type="submit">Войти</button>
-            {/* <button className="login__submit button" type="submit">Войти</button> */}
             <p className="login__subline">Ещё не зарегистрированы? <a className="signup-link link" href="/signup">Регистрация</a></p>
         </form>
 )}

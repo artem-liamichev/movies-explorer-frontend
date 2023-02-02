@@ -1,6 +1,5 @@
 import React from 'react';
 
-// console.log('REPA SearchHasNoResults isResultEmpty:', isResultEmpty)
 function SearchHasNoResults () {
   return (
     <div className="has-no-results">

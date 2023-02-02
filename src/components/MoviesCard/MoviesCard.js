@@ -3,41 +3,23 @@ import { useLocation} from 'react-router-dom';
 
 
 function MoviesCard({card, onCardLike, onCardDelete, likedCards}) { 
-// console.log('likedCards:', likedCards)
-// console.log('card:', card)
-
     const isLiked = likedCards.some(i => i.movieId === card.id);
-    // console.log('likedCardsisLiked:', card.id, isLiked)
-
-    
-//   const [isLiked, setCardLike] = useState(false);
-    
-
-//     useEffect(() => {
-//         if (card.id)
-//         tokenCheck();
-//         }, []);
-
-
-  const { pathname } = useLocation()
-  const deleteButtonRef = React.useRef();
-  
-  const handleMouseOver = () => {
-      deleteButtonRef.current.style.display = 'block'
-  }
-  const handleMouseLeave = () => {
-      deleteButtonRef.current.style.display = 'none'
-  }
-
-  
-  function handleLikeClick() {
-    // setCardLike((isCardLiked) => !isCardLiked);
-    onCardLike(card)
+    const { pathname } = useLocation()
+    const deleteButtonRef = React.useRef();
+    const handleMouseOver = () => {
+        deleteButtonRef.current.style.display = 'block'
     }
-
-function handleDeleteClick() {
-    onCardDelete(card._id);
+    const handleMouseLeave = () => {
+        deleteButtonRef.current.style.display = 'none'
     }
+  
+    function handleLikeClick() {
+        onCardLike(card)
+        }
+
+    function handleDeleteClick() {
+        onCardDelete(card._id);
+        }
   
   const cardLikeButtonClassName = (`card__like-button ${isLiked ? 'card__like-button_active': 'card__like-button_disabled'}`); 
 

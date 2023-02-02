@@ -51,15 +51,6 @@ class MainApi {
         })
         .then(this._checkServerResponse)
         }
-    // getProfile() {
-    //     return fetch(`${this._url}/users/me`, {
-    //         headers: {
-    //         ...this._headers,
-    //         'Authorization': `Bearer ${this._getToken()}`,
-    //         }
-    //     })
-    //         .then(this._checkServerResponse)
-    //     }
     updateUserInfo(data) {
         const body = {
           email: data.email,
@@ -121,19 +112,6 @@ class MainApi {
             }    })
         .then(this._checkServerResponse)
     }
-    
-    // changeLikeCardStatus(movieId, isLiked) {
-    //     return fetch(`${this._url}/movies/${movieId}`, {
-    //       method: `${isLiked ? 'POST' : 'DELETE'}`,
-    //       headers: {
-    //         ...this._headers,
-    //         'Authorization': `Bearer ${this._getToken()}`,
-    //       }
-    //     })
-    //     .then(this._checkServerResponse)
-    //   }  
-    
-
 }
 
 export const mainApi = new MainApi('http://localhost:3001')

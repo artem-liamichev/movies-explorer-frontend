@@ -45,6 +45,7 @@ function Register({ onRegister }) {
                         }
                         className={`register__input input ${errors?.email?.message ? 'error': ''}`}
                         autoComplete="off" 
+                        placeholder="E-mail"
                         />                    
                 <p className="error-message">{errors.email?.message}</p>
                 </label>
