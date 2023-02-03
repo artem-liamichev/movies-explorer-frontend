@@ -41,7 +41,7 @@ function App() {
   const [isChecked, setFilterChecked] = useState(JSON.parse(localStorage.getItem('isChecked')))
   const [filteredCards, setFilteredCards] = useState(JSON.parse(localStorage.getItem('filteredCards')));
   const [visibleCards, setVisibleCards] = useState([]);
-  const [filteredShorts, setFilteredShorts] = useState(filteredCards.filter((c) => c.duration <= 60));
+  const [filteredShorts, setFilteredShorts] = useState([]);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isRequired, setExtendedResult] = useState(false);
   const localWord = localStorage.getItem('inputValue');
