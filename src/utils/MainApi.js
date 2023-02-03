@@ -114,5 +114,7 @@ class MainApi {
     }
 }
 
-export const mainApi = new MainApi('http://localhost:3001')
+// export const mainApi = new MainApi('http://localhost:3001')
+export const mainApi = new MainApi(process.env.NODE_ENV === 'development' ? 'http://localhost:3001':'https://api.liamichev.nomoredomains.icu')
+
    
