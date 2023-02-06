@@ -5,7 +5,6 @@ function Login({ onLogin }) {
 
     return (
         <form autoComplete="off" onSubmit={handleSubmit((data, e) => {
-            console.log('handleSubmitdata:', data)
             e.preventDefault();
             onLogin(data); 
             reset();

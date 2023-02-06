@@ -20,7 +20,7 @@ class Api {
       return fetch(`${this._url}`, {
         headers: {
         ...this._headers,
-        'Authorization': `Bearer ${this._getToken()}`,
+        // 'Authorization': `Bearer ${this._getToken()}`,
       }
       })
         .then(this._checkServerResponse)

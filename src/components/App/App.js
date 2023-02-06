@@ -34,14 +34,14 @@ import useMedia from '../../hooks/useMedia';
 import { CurrenUserContext } from '../../contexts/CurrentUserContext.js';
 import { mainApi } from '../../utils/MainApi';
 
-
+//build copy to server 12:38
 function App() {
 
   const { pathname } = useLocation()
   const [isChecked, setFilterChecked] = useState(JSON.parse(localStorage.getItem('isChecked')))
-  const [filteredCards, setFilteredCards] = useState(JSON.parse(localStorage.getItem('filteredCards')));
+  const [filteredCards, setFilteredCards] = useState(JSON.parse(localStorage.getItem('filteredCards'))||[]);
   const [visibleCards, setVisibleCards] = useState([]);
-  const [filteredShorts, setFilteredShorts] = useState([]);
+  const [filteredShorts, setFilteredShorts] = useState(filteredCards.filter((c) => c.duration <= 60));
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isRequired, setExtendedResult] = useState(false);
   const localWord = localStorage.getItem('inputValue');
@@ -63,14 +63,11 @@ function App() {
 
   const jwt = localStorage.getItem('jwt');
 
-  const tokenCheck = () => {
-
-    
+  const tokenCheck = () => {  
     if (jwt) {
       mainApi
       .getProfile(jwt)
       .then((res) => {
-        console.log('res:', res)
         if (res._id) {
           setUserEmail(res.email);
           setUserName(res.name);
@@ -79,18 +76,23 @@ function App() {
       .catch((err) => {
         console.log(err);
       }) }
-    }
+      api
+        .getInitialCards()
+        .then((initialCards) => {
+          setCards(initialCards);
+        })
+        .catch((err) => {
+          console.log(err);
+        });    }
 
   useEffect(() => {
     tokenCheck();
   }, []);
 
   const onLogin = (data) => {
-    console.log('onLogindata:', data)
     return mainApi
       .authorize(data)
       .then((data) => {
-        console.log('authorizedata:', data)
         setLoggedIn(true);
         localStorage.setItem('jwt', data.token);
         history.push('/movies');
@@ -147,28 +149,35 @@ function App() {
   }, [isLoggedIn])
 
     useEffect(() => {
-      if (isMobile) {
-        setCardQuantity(5);
-        setExtendedCardQuantity(2)
-        squaresGrid.style.gridTemplateColumns = "1fr";
-      }
+      if (pathname === '/movies' || pathname === '/saved-movies') {
+        if (isMobile) {
+          setCardQuantity(5);
+          setExtendedCardQuantity(2)
+          squaresGrid.style.gridTemplateColumns = "1fr";
+        }
+        }
     }, [isMobile, cardQuantity, ExtendedCardQuantity])
 
     useEffect(() => {
-      if (isTablet) {
-        setCardQuantity(8);
-        setExtendedCardQuantity(2)
-        squaresGrid.style.gridTemplateColumns = "1fr 1fr";
-      }
+      if (pathname === '/movies' || pathname === '/saved-movies') {
+        if (isTablet) {
+          setCardQuantity(8);
+          setExtendedCardQuantity(2)
+          squaresGrid.style.gridTemplateColumns = "1fr 1fr";
+        }
+        }
     }, [isTablet, cardQuantity, ExtendedCardQuantity])
 
     useEffect(() => {
-      if (isDesktop) {
-        setCardQuantity(12);
-        setExtendedCardQuantity(3)
-        squaresGrid.style.gridTemplateColumns = "1fr 1fr 1fr";
-      }
+      if (pathname === '/movies' || pathname === '/saved-movies') {
+        if (isDesktop) {
+          setCardQuantity(12);
+          setExtendedCardQuantity(3)
+          squaresGrid.style.gridTemplateColumns = "1fr 1fr 1fr";
+        }
+        }
     }, [isDesktop, cardQuantity, ExtendedCardQuantity])
+  
 
   function handleExtendClick() {
     if (isChecked) {
@@ -213,7 +222,6 @@ function App() {
   }
 
   function handleCardLike(card) {
-    console.log('card:', card)
     const isLiked = likedCards.some(i => i.movieId === card.id);
     const savedCard = likedCards.filter((c) => c.movieId === card.id);
     if (isLiked) {
@@ -302,7 +310,6 @@ function App() {
         .then((initialCards) => {
           const filteredCards = initialCards.filter((card) => card.nameRU.toLowerCase().includes(filterText)||card.nameEN.toLowerCase().includes(filterText))
           localStorage.setItem('filteredCards', JSON.stringify(filteredCards));
-          console.log('REPA handleSearch-filteredCards:', filteredCards)
           setFilteredCards(filteredCards);
           if ((filteredCards.length>0)||(localWord.length===0)) {
             searchFindings(false);

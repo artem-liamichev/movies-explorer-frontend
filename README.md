@@ -1,12 +1,13 @@
+Ссылка на пул реквест
+https://github.com/artem-liamichev/movies-explorer-api.git
+
 Ссылка на макет диплома (яндекс-диск):
 https://disk.yandex.ru/d/wEKJDYa3xH3WJA
 
-Репозиторий для приложения проекта movies-explorer, приложения со следующими возможностями: авторизации и регистрации пользователей, операции с фильмами.
+Приложение проекта movies-explorer со следующими возможностями: авторизации и регистрации пользователей, операции с фильмами.
 
-IP 158.160.36.81 Frontend https://liamichev.nomoredomains.icu Backend https://api.liamichev.nomoredomains.icu
+IP 51.250.22.214 Frontend https://liamichev.nomoredomains.icu Backend https://api.liamichev.nomoredomains.icu
 
-Репозиторий
-https://github.com/artem-liamichev/movies-explorer-api.git
 
 
 # Getting Started with Create React App

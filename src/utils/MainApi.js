@@ -68,7 +68,6 @@ class MainApi {
       }
 
       addCard(data) {
-        console.log('data:', data.image.formats.thumbnail.url)
         const body = {
             country: data.country,
             movieId: data.id,

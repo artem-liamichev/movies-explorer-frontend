@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children, isLoggedIn }) => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 200)
+    }, 1500)
   }, [isLoading]);
 
   return isLoggedIn? children : !isLoading && <Redirect to="/" />

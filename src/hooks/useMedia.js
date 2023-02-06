@@ -9,7 +9,6 @@ const useMedia = (query) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         setMatches(media.matches)
-        console.log('listener');
       }, 1000)
     }
     media.addEventListener('change', listener);

@@ -14,8 +14,6 @@ function Profile({ isUpdateUserFailed, isUpdateUserCompleted, onLogout, onUpdate
     const currentName = watch("name");
     const currentEmail = watch("email");
 
-    console.log('currentName:', currentName)
-
     React.useEffect(() => {
         setValue('name', currentUser.name);
         setValue('email', currentUser.email);
@@ -32,7 +30,6 @@ function Profile({ isUpdateUserFailed, isUpdateUserCompleted, onLogout, onUpdate
     return (
     <article>
         <form autoComplete="off" onSubmit={handleSubmit((data, e) => {
-            console.log('handleSubmitdata:', data)
             e.preventDefault();
             onUpdateUser(data); 
             document.querySelectorAll('.profile__input')[0].disabled = true;
