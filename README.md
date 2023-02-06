@@ -1,5 +1,5 @@
 Ссылка на пул реквест
-https://github.com/artem-liamichev/movies-explorer-api.git
+https://github.com/artem-liamichev/movies-explorer-frontend/pull/2
 
 Ссылка на макет диплома (яндекс-диск):
 https://disk.yandex.ru/d/wEKJDYa3xH3WJA
