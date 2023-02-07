@@ -90,4 +90,7 @@
     .card__info {
         padding: 14px;
     }
+    .card__delete-button {
+        display: block;
+    }
 }

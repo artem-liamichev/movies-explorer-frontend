@@ -1,11 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useLocation} from 'react-router-dom';
-
+import useMedia from '../../hooks/useMedia';
 
 function MoviesCard({card, onCardLike, onCardDelete, likedCards}) { 
+    const isMobile = useMedia('(min-width: 320px) and (max-width: 500px)');  
     const isLiked = likedCards.some(i => i.movieId === card.id);
     const { pathname } = useLocation()
     const deleteButtonRef = React.useRef();
+
+    useEffect(() => {
+        if (isMobile){
+            deleteButtonRef.current.style.display = 'block'
+        } else {
+            deleteButtonRef.current.style.display = 'none'
+        }
+    }, [isMobile])
+
     const handleMouseOver = () => {
         deleteButtonRef.current.style.display = 'block'
     }
@@ -21,7 +31,7 @@ function MoviesCard({card, onCardLike, onCardDelete, likedCards}) {
         onCardDelete(card._id);
         }
   
-  const cardLikeButtonClassName = (`card__like-button ${isLiked ? 'card__like-button_active': 'card__like-button_disabled'}`); 
+  const cardLikeButtonClassName = (`card__like-button button ${isLiked ? 'card__like-button_active': 'card__like-button_disabled'}`); 
 
 
   return (

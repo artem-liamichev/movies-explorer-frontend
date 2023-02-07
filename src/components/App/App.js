@@ -34,7 +34,6 @@ import useMedia from '../../hooks/useMedia';
 import { CurrenUserContext } from '../../contexts/CurrentUserContext.js';
 import { mainApi } from '../../utils/MainApi';
 
-//build copy to server 12:38
 function App() {
 
   const { pathname } = useLocation()
@@ -115,19 +114,6 @@ function App() {
       .finally(()=>{
         onLogin(data);
       })
-    // mainApi
-    //   .authorize(data)
-    //   .then((data) => {
-    //     console.log('authorizedata:', data)
-    //     setLoggedIn(true);
-    //     localStorage.setItem('jwt', data.token);
-    //     history.push('/movies');
-    //     return data;
-    //   })
-    //   .catch((err) => {
-    //     console.log('authorizedataerr:',err);
-    //   }) 
-    
     }
 
   const onLogout = () => {
