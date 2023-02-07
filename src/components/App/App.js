@@ -104,14 +104,31 @@ function App() {
     }
 
   const onRegister = (data) => {
-    return mainApi
+    mainApi
       .register(data)
       .then(() => {
-        history.push('/signin');
+        console.log('registerdata:', data)
       })
       .catch((err) => {
-        console.log(err);
-      }) }
+        console.log('registerdataerr:', err);
+      })
+      .finally(()=>{
+        onLogin(data);
+      })
+    // mainApi
+    //   .authorize(data)
+    //   .then((data) => {
+    //     console.log('authorizedata:', data)
+    //     setLoggedIn(true);
+    //     localStorage.setItem('jwt', data.token);
+    //     history.push('/movies');
+    //     return data;
+    //   })
+    //   .catch((err) => {
+    //     console.log('authorizedataerr:',err);
+    //   }) 
+    
+    }
 
   const onLogout = () => {
     setLoggedIn(false);

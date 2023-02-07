@@ -16,22 +16,30 @@ class MainApi {
         return Promise.reject('Возникла ошибка')
       }
     
-    register({ name, email, password  }) {
+    register(data) {
+      const body = {
+        email: data.email,
+        password: data.password,
+        name: data.name,
+      }
         return fetch(`${this._url}/signup`, {
             method: 'POST',
             headers: {
                 ...this._headers,
                 },
-            body: JSON.stringify({ name, email, password })
+            body: JSON.stringify(body)
         })
         .then(this._checkServerResponse)
     };
 
     authorize(data) {
+        console.log('MainApiauthorize data:', data)
         const body = {
             email: data.email,
             password: data.password,
     }
+    console.log('body:', body)
+
         return fetch(`${this._url}/signin`, {
             method: 'POST',
             headers: {
