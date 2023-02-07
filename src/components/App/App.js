@@ -434,7 +434,7 @@ function App() {
             {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/signup"/>}
             <Register onRegister={onRegister}/>
         </Route>
-        <Route>
+        <Route path="/signin">
             {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/signin"/>}
             <Login onLogin={onLogin}/>
         </Route>
