@@ -25,7 +25,11 @@ function SearchForm({children, onSearchClick}) {
   return (
     <form className="search">
         <img className='search__icon' src={searchIcon} alt="иконка поиска"></img>
-        <input id="input" className="search__input" type="search" placeholder="Фильм" ref={nameInputRef}/>
+        <input id="input" className="search__input" type="search" placeholder="Фильм" ref={nameInputRef}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearchClick(e);              }
+            }}/>
         <div className='search__container'>
           <button className="search__button button" type="button"
             onClick={handleSearchClick}
