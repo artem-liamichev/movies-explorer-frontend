@@ -376,10 +376,10 @@ function App() {
 }
 
 const onLogout = () => {
-  likedCards.forEach((card) => {
-    const movieId = card._id;
-    mainApi.deleteCard(movieId)
-  });
+  // likedCards.forEach((card) => {
+  //   const movieId = card._id;
+  //   mainApi.deleteCard(movieId)
+  // });
   setCards([]);
   setFilteredCards([])
   setLoggedIn(false);
