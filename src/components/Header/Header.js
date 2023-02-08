@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation} from 'react-router-dom';
 import closeButton from '../../images/close-button.svg';
 
-function Header({isOpen, onMenuClick, onClose, onSavedMoviesClick}) {
+function Header({isOpen, onMenuClick, onClose}) {
 
     const { pathname } = useLocation()
 
@@ -17,7 +17,6 @@ function Header({isOpen, onMenuClick, onClose, onSavedMoviesClick}) {
                 </li>
                 <li className='list-item'>
                     <a
-                    onClick={onSavedMoviesClick} 
                     href="/saved-movies" 
                     className={`header__item link ${pathname==='/saved-movies' ? "active" : ""}`}>Сохранённые фильмы</a>
                 </li>
@@ -47,7 +46,7 @@ function Header({isOpen, onMenuClick, onClose, onSavedMoviesClick}) {
                                 <a href="/movies" className={`menu__item link ${pathname==='/movies' ? "active" : ""}`}>Фильмы</a>
                             </li>
                             <li>
-                                <a onClick={onSavedMoviesClick} href="/saved-movies" className={`menu__item link ${pathname==='/saved-movies' ? "active" : ""}`}>Сохраненные фильмы</a>
+                                <a href="/saved-movies" className={`menu__item link ${pathname==='/saved-movies' ? "active" : ""}`}>Сохраненные фильмы</a>
                             </li>
                             <li>
                                 <a href="/profile" className="account link">

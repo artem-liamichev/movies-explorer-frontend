@@ -115,7 +115,7 @@ function App() {
         console.log('registerdata:', data)
       })
       .catch((err) => {
-        console.log('registerdataerr:', err);
+        console.log(err);
       })
       .finally(()=>{
         onLogin(data);
@@ -202,7 +202,6 @@ function App() {
 
   useEffect(() => {
     handleSavedMoviesRendering() 
-    console.log('suseEffectavedMoviesFilteredCards:', savedMoviesFilteredCards)
   }, [isSavedMovieChecked, savedMoviesFilteredCards]);
 
   function handleRendering() {
@@ -303,24 +302,6 @@ function App() {
     setMenuOpen(false);
   }
 
-
-  function handleSavedMoviesClick() {
-    // console.log('handleSavedMoviesClick:')
-    // setLikedCards()
-    // setSavedMoviesVisibleCards(likedCards)
-    // setTimeout(() => {
-    //   console.log('handleSavedMoviesClick:')
-    //   setSavedMoviesVisibleCards(likedCards)
-    // }, 2200);
-    }
-
-    // console.log('savedMoviesFilteredCards:', savedMoviesFilteredCards)
-    // console.log('likedCards:', likedCards)
-    // console.log('savedMoviesVisibleCards:', savedMoviesVisibleCards)
-
-    console.log('likedCards:', likedCards)
-    console.log('savedMoviesVisibleCards:', savedMoviesVisibleCards)
-
   useEffect(() => {
     if (!isSavedMovieChecked) {
       setSavedMoviesVisibleCards(likedCards)
@@ -329,34 +310,6 @@ function App() {
       const filteredSavedMoviesShorts = likedCards.filter((c) => c.duration <= 60);
       setSavedMoviesVisibleCards(filteredSavedMoviesShorts)
     }
-
-    //   setTimeout(() => {
-    //   console.log('setTimeout:')
-    //   const cards = likedCards
-    //   setSavedMoviesVisibleCards(cards)
-    // }, 4000);
-    // console.log('useEffect:', useEffect)
-    // setSavedMoviesFilterText('')
-    // if (likedCards) {
-    //   console.log('useEffectlikedCards:', likedCards)
-    //   setSavedMoviesVisibleCards(likedCards)
-    // }
-    // if (pathname === '/saved-movies') {
-    //   const savedMoviesVisibleCards = likedCards;
-    //   setTimeout(() => {
-    //     console.log('handleSavedMoviesClick:')
-    //     setSavedMoviesVisibleCards(savedMoviesVisibleCards)
-    //   }, 1400);
-    //   setSavedMoviesFilterText('')
-    //   // setSavedMoviesVisibleCards(likedCards)
-    //   console.log('likedCards:', likedCards)
-    //   console.log('savedMoviesVisibleCards:', savedMoviesVisibleCards)
-    // }
-    // setTimeout(() => {
-    //   console.log('handleSavedMoviesClick:')
-    //   setSavedMoviesVisibleCards(likedCards)
-    // }, 2200);
-
   }, [(pathname === '/saved-movies'), likedCards, isSavedMovieChecked])
 
   function handleSavedMoviesSearch(savedMoviesFilterText) {
@@ -365,10 +318,8 @@ function App() {
       searchResult(true);
         if (likedCards) {
           const savedMoviesFilteredCards = likedCards.filter((card) => card.nameRU.toLowerCase().includes(savedMoviesFilterText)||card.nameEN.toLowerCase().includes(savedMoviesFilterText))
-          console.log('filteredCards:', filteredCards)
           setSavedMoviesFilteredCards(savedMoviesFilteredCards);
           setSavedMoviesVisibleCards(savedMoviesFilteredCards)
-          console.log('savedMoviesFilteredCards:', savedMoviesFilteredCards)
           if ((savedMoviesFilteredCards.length>0)||(savedMoviesFilterText.length===0)) {
             searchFindings(false);
           } else {
@@ -439,12 +390,8 @@ const onLogout = () => {
   history.push('/');
 }
 
-// console.log('isLoggedIn:', isLoggedIn)
-// console.log('likedCards:', likedCards)
-
 function handleSavedMoviesRendering() {
   const filteredSavedMoviesShorts = savedMoviesFilteredCards.filter((c) => c.duration <= 60);
-  console.log('handleSavedMoviesRenderingfilteredSavedMoviesShorts:', filteredSavedMoviesShorts)
   setFilteredSavedMoviesShorts(filteredSavedMoviesShorts);
   if (isSavedMovieChecked) {
     setSavedMoviesVisibleCards(filteredSavedMoviesShorts);
@@ -464,7 +411,6 @@ function handleSavedMoviesRendering() {
             isOpen={isMenuOpen}
             onMenuClick={handleMenuClick}
             onClose={closeMenuClick}
-            onSavedMoviesClick={handleSavedMoviesClick}
             />}
             <Promo/>
             <NavTab/>
@@ -481,7 +427,6 @@ function handleSavedMoviesRendering() {
             isOpen={isMenuOpen}
             onMenuClick={handleMenuClick}
             onClose={closeMenuClick}
-            onSavedMoviesClick={handleSavedMoviesClick}
             />          
           <SearchForm
             onSearchClick={handleSearch}>
@@ -510,7 +455,6 @@ function handleSavedMoviesRendering() {
         <ProtectedRoute path="/saved-movies" isLoggedIn={isLoggedIn}>
           <Header 
             isOpen={isMenuOpen}
-            onSavedMoviesClick={handleSavedMoviesClick}
             onMenuClick={handleMenuClick}
             onClose={closeMenuClick}/>  
           <SearchFormSavedMovie
@@ -543,7 +487,6 @@ function handleSavedMoviesRendering() {
             isOpen={isMenuOpen}
             onMenuClick={handleMenuClick}
             onClose={closeMenuClick}
-            onSavedMoviesClick={handleSavedMoviesClick}
             />
             
           <Profile

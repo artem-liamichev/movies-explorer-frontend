@@ -38,8 +38,6 @@ class MainApi {
             email: data.email,
             password: data.password,
     }
-    console.log('body:', body)
-
         return fetch(`${this._url}/signin`, {
             method: 'POST',
             headers: {

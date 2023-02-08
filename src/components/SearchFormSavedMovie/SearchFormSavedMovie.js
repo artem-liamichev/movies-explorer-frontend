@@ -8,7 +8,6 @@ function SearchForm({children, onSavedMoviesSearchClick}) {
   const handleSavedMoviesSearchClick = (e) => {
     e.preventDefault();
     onSavedMoviesSearchClick(nameInputRef.current.value.toLowerCase())
-    console.log('savedMovieNameInputRef.current.value:', nameInputRef.current.value)
   }
 
   return (
