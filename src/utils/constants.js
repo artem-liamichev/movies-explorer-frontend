@@ -1,3 +1,13 @@
+export const ShortMovieLength = 60;
+export const CardQuantityMobile = 5;
+export const CardQuantityTablet = 8;
+export const CardQuantityDesktop = 12;
+export const ExtentedCardQuantityMobile = 2;
+export const ExtentedCardQuantityTablet = 2;
+export const ExtentedCardQuantityDesktop = 3;
+export const DesktopSize = '(min-width: 931px)';
+export const TabletSize = '(min-width: 501px) and (max-width: 930px)';  
+export const MobileSize = '(min-width: 320px) and (max-width: 500px)';  
 
 export const config = {
   preloader: '.preloader',

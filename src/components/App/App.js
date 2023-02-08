@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, Redirect, useHistory, useLocation } from 'react-router-dom';
 import ProtectedRoute from '../ProtectedRoute.js';
-
 import './App.css';
 import LandingHeader from '../LandingHeader/LandingHeader.js';
 import Header from '../Header/Header.js';
@@ -32,9 +31,20 @@ import { searchFindings } from '../../utils/constants';
 import SearchHasError from '../SearchHasError/SearchHasError';
 import SearchHasNoResults from '../SearchHasNoResults/SearchHasNoResults';
 import useMedia from '../../hooks/useMedia';
-
 import { CurrenUserContext } from '../../contexts/CurrentUserContext.js';
 import { mainApi } from '../../utils/MainApi';
+import { 
+        ShortMovieLength,
+        CardQuantityMobile,
+        CardQuantityTablet, 
+        CardQuantityDesktop,
+        ExtentedCardQuantityMobile,
+        ExtentedCardQuantityTablet,
+        ExtentedCardQuantityDesktop,
+        DesktopSize,
+        TabletSize,
+        MobileSize,
+        } from '../../utils/constants';
 
 function App() {
 
@@ -43,17 +53,17 @@ function App() {
   const [isSavedMovieChecked, setSavedMovieFilterChecked] = useState(false);
   const [filteredCards, setFilteredCards] = useState(JSON.parse(localStorage.getItem('filteredCards'))||[]);
   const [visibleCards, setVisibleCards] = useState([]);
-  const [filteredShorts, setFilteredShorts] = useState(filteredCards.filter((c) => c.duration <= 60));
+  const [filteredShorts, setFilteredShorts] = useState(filteredCards.filter((c) => c.duration <= ShortMovieLength));
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isRequired, setExtendedResult] = useState(false);
   const localWord = localStorage.getItem('inputValue');
-  const [cardQuantity, setCardQuantity] = useState(12);
-  const [ExtendedCardQuantity, setExtendedCardQuantity] = useState(3);
+  const [cardQuantity, setCardQuantity] = useState(CardQuantityDesktop);
+  const [ExtendedCardQuantity, setExtendedCardQuantity] = useState(ExtentedCardQuantityDesktop);
   const [cards, setCards] = useState([]);
   const [likedCards, setLikedCards] = useState([]);
-  const isDesktop = useMedia('(min-width: 931px)');
-  const isTablet = useMedia('(min-width: 501px) and (max-width: 930px)');  
-  const isMobile = useMedia('(min-width: 320px) and (max-width: 500px)');  
+  const isDesktop = useMedia(DesktopSize);
+  const isTablet = useMedia(TabletSize);  
+  const isMobile = useMedia(MobileSize);  
   const squaresGrid = document.querySelector('.movies__list');
   const [currentUser, setCurrentUser] = useState({});
   const [userEmail, setUserEmail] = useState('');
@@ -154,8 +164,8 @@ function App() {
     useEffect(() => {
       if (pathname === '/movies' || pathname === '/saved-movies') {
         if (isMobile) {
-          setCardQuantity(5);
-          setExtendedCardQuantity(2)
+          setCardQuantity(CardQuantityMobile);
+          setExtendedCardQuantity(ExtentedCardQuantityMobile)
           squaresGrid.style.gridTemplateColumns = "1fr";
         }
         }
@@ -164,8 +174,8 @@ function App() {
     useEffect(() => {
       if (pathname === '/movies' || pathname === '/saved-movies') {
         if (isTablet) {
-          setCardQuantity(8);
-          setExtendedCardQuantity(2)
+          setCardQuantity(CardQuantityTablet);
+          setExtendedCardQuantity(ExtentedCardQuantityTablet)
           squaresGrid.style.gridTemplateColumns = "1fr 1fr";
         }
         }
@@ -174,8 +184,8 @@ function App() {
     useEffect(() => {
       if (pathname === '/movies' || pathname === '/saved-movies') {
         if (isDesktop) {
-          setCardQuantity(12);
-          setExtendedCardQuantity(3)
+          setCardQuantity(CardQuantityDesktop);
+          setExtendedCardQuantity(ExtentedCardQuantityDesktop)
           squaresGrid.style.gridTemplateColumns = "1fr 1fr 1fr";
         }
         }
@@ -205,7 +215,7 @@ function App() {
   }, [isSavedMovieChecked, savedMoviesFilteredCards]);
 
   function handleRendering() {
-    const filteredShorts = filteredCards.filter((c) => c.duration <= 60);
+    const filteredShorts = filteredCards.filter((c) => c.duration <= ShortMovieLength);
     setFilteredShorts(filteredShorts);
     if (!isChecked) {
       if (filteredCards.length <= cardQuantity) {
@@ -307,7 +317,7 @@ function App() {
       setSavedMoviesVisibleCards(likedCards)
     } 
     else if (!savedMoviesFilterText) {
-      const filteredSavedMoviesShorts = likedCards.filter((c) => c.duration <= 60);
+      const filteredSavedMoviesShorts = likedCards.filter((c) => c.duration <= ShortMovieLength);
       setSavedMoviesVisibleCards(filteredSavedMoviesShorts)
     }
   }, [(pathname === '/saved-movies'), likedCards, isSavedMovieChecked])
@@ -391,7 +401,7 @@ const onLogout = () => {
 }
 
 function handleSavedMoviesRendering() {
-  const filteredSavedMoviesShorts = savedMoviesFilteredCards.filter((c) => c.duration <= 60);
+  const filteredSavedMoviesShorts = savedMoviesFilteredCards.filter((c) => c.duration <= ShortMovieLength);
   setFilteredSavedMoviesShorts(filteredSavedMoviesShorts);
   if (isSavedMovieChecked) {
     setSavedMoviesVisibleCards(filteredSavedMoviesShorts);
