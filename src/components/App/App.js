@@ -439,9 +439,9 @@ function handleSavedMoviesRendering() {
             onExtendClick={handleExtendClick}
             isRequired={isRequired}
           >
-            {visibleCards.map((card, index)=>{
+            {visibleCards.map((card)=>{
               return (<MoviesCard
-              card={card} key={index}
+              card={card} key={card.id}
               onCardLike = {handleCardLike} 
               likedCards={likedCards}
               />)
@@ -467,9 +467,9 @@ function handleSavedMoviesRendering() {
           <Preloader/>
           <MoviesCardList
             onExtendClick={handleExtendClick}>
-            {savedMoviesVisibleCards.map((card, index)=>{
+            {savedMoviesVisibleCards.map((card)=>{
                 return (<MoviesCard
-                card={card} key={index}
+                card={card} key={card._id}
                 onCardDelete ={handleCardDelete}
                 likedCards={savedMoviesVisibleCards}
                 />)
