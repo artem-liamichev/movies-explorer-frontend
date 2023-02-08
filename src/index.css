@@ -23,3 +23,5 @@
 @import url(./components/SearchNotValid/SearchNotValid.css);
 @import url(./components/SearchHasError/SearchHasError.css);
 @import url(./components/SearchHasNoResults/SearchHasNoResults.css);
+@import url(./components/SearchFormSavedMovie/SearchFormSavedMovie.css);
+@import url(./components/FilterCheckboxSavedMovies/FilterCheckboxSavedMovies.css);

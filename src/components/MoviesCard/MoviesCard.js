@@ -9,11 +9,13 @@ function MoviesCard({card, onCardLike, onCardDelete, likedCards}) {
     const deleteButtonRef = React.useRef();
 
     useEffect(() => {
-        if (isMobile){
-            deleteButtonRef.current.style.display = 'block'
-        } else {
-            deleteButtonRef.current.style.display = 'none'
-        }
+        if (pathname==='/saved-movies'){
+            if (isMobile){
+                deleteButtonRef.current.style.display = 'block'
+            } else {
+                deleteButtonRef.current.style.display = 'none'
+            }
+            }
     }, [isMobile])
 
     const handleMouseOver = () => {

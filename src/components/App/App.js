@@ -13,10 +13,12 @@ import AboutMe from '../AboutMe/AboutMe.js';
 import Portfolio from '../Portfolio/Portfolio.js';
 import Footer from '../Footer/Footer.js';
 import SearchForm from '../SearchForm/SearchForm';
+import SearchFormSavedMovie from '../SearchFormSavedMovie/SearchFormSavedMovie';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import FilterCheckboxSavedMovies from '../FilterCheckboxSavedMovies/FilterCheckboxSavedMovies'
 import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
@@ -38,6 +40,7 @@ function App() {
 
   const { pathname } = useLocation()
   const [isChecked, setFilterChecked] = useState(JSON.parse(localStorage.getItem('isChecked')))
+  const [isSavedMovieChecked, setSavedMovieFilterChecked] = useState(false);
   const [filteredCards, setFilteredCards] = useState(JSON.parse(localStorage.getItem('filteredCards'))||[]);
   const [visibleCards, setVisibleCards] = useState([]);
   const [filteredShorts, setFilteredShorts] = useState(filteredCards.filter((c) => c.duration <= 60));
@@ -59,7 +62,10 @@ function App() {
   const [isUpdateUserCompleted, setIsUpdateUserCompleted] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
-
+  const [savedMoviesFilterText, setSavedMoviesFilterText] = useState('');
+  const [savedMoviesFilteredCards, setSavedMoviesFilteredCards] = useState(likedCards);
+  const [savedMoviesVisibleCards, setSavedMoviesVisibleCards] = useState([]);
+  const [filteredSavedMoviesShorts, setFilteredSavedMoviesShorts] = useState([]);
   const jwt = localStorage.getItem('jwt');
 
   const tokenCheck = () => {  
@@ -115,12 +121,6 @@ function App() {
         onLogin(data);
       })
     }
-
-  const onLogout = () => {
-    setLoggedIn(false);
-    localStorage.removeItem('jwt')
-    history.push('/');
-  }
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -200,6 +200,10 @@ function App() {
     handleRendering() 
   }, [filteredCards, isChecked]);
 
+  useEffect(() => {
+    handleSavedMoviesRendering() 
+    console.log('suseEffectavedMoviesFilteredCards:', savedMoviesFilteredCards)
+  }, [isSavedMovieChecked, savedMoviesFilteredCards]);
 
   function handleRendering() {
     const filteredShorts = filteredCards.filter((c) => c.duration <= 60);
@@ -301,17 +305,87 @@ function App() {
 
 
   function handleSavedMoviesClick() {
-    setLikedCards()
+    // console.log('handleSavedMoviesClick:')
+    // setLikedCards()
+    // setSavedMoviesVisibleCards(likedCards)
+    // setTimeout(() => {
+    //   console.log('handleSavedMoviesClick:')
+    //   setSavedMoviesVisibleCards(likedCards)
+    // }, 2200);
     }
+
+    // console.log('savedMoviesFilteredCards:', savedMoviesFilteredCards)
+    // console.log('likedCards:', likedCards)
+    // console.log('savedMoviesVisibleCards:', savedMoviesVisibleCards)
+
+    console.log('likedCards:', likedCards)
+    console.log('savedMoviesVisibleCards:', savedMoviesVisibleCards)
+
+  useEffect(() => {
+    if (!isSavedMovieChecked) {
+      setSavedMoviesVisibleCards(likedCards)
+    } 
+    else if (!savedMoviesFilterText) {
+      const filteredSavedMoviesShorts = likedCards.filter((c) => c.duration <= 60);
+      setSavedMoviesVisibleCards(filteredSavedMoviesShorts)
+    }
+
+    //   setTimeout(() => {
+    //   console.log('setTimeout:')
+    //   const cards = likedCards
+    //   setSavedMoviesVisibleCards(cards)
+    // }, 4000);
+    // console.log('useEffect:', useEffect)
+    // setSavedMoviesFilterText('')
+    // if (likedCards) {
+    //   console.log('useEffectlikedCards:', likedCards)
+    //   setSavedMoviesVisibleCards(likedCards)
+    // }
+    // if (pathname === '/saved-movies') {
+    //   const savedMoviesVisibleCards = likedCards;
+    //   setTimeout(() => {
+    //     console.log('handleSavedMoviesClick:')
+    //     setSavedMoviesVisibleCards(savedMoviesVisibleCards)
+    //   }, 1400);
+    //   setSavedMoviesFilterText('')
+    //   // setSavedMoviesVisibleCards(likedCards)
+    //   console.log('likedCards:', likedCards)
+    //   console.log('savedMoviesVisibleCards:', savedMoviesVisibleCards)
+    // }
+    // setTimeout(() => {
+    //   console.log('handleSavedMoviesClick:')
+    //   setSavedMoviesVisibleCards(likedCards)
+    // }, 2200);
+
+  }, [(pathname === '/saved-movies'), likedCards, isSavedMovieChecked])
+
+  function handleSavedMoviesSearch(savedMoviesFilterText) {
+    if (savedMoviesFilterText) {
+      setSavedMoviesFilterText(savedMoviesFilterText)
+      searchResult(true);
+        if (likedCards) {
+          const savedMoviesFilteredCards = likedCards.filter((card) => card.nameRU.toLowerCase().includes(savedMoviesFilterText)||card.nameEN.toLowerCase().includes(savedMoviesFilterText))
+          console.log('filteredCards:', filteredCards)
+          setSavedMoviesFilteredCards(savedMoviesFilteredCards);
+          setSavedMoviesVisibleCards(savedMoviesFilteredCards)
+          console.log('savedMoviesFilteredCards:', savedMoviesFilteredCards)
+          if ((savedMoviesFilteredCards.length>0)||(savedMoviesFilterText.length===0)) {
+            searchFindings(false);
+          } else {
+            searchFindings(true);
+          }
+        } 
+      } 
+    else {
+      searchResult(false)
+    }
+  }
 
   function handleSearch(filterText) {
     if (filterText) {
       searchResult(true);
-      renderLoading(true);
-        api
-        .getInitialCards()
-        .then((initialCards) => {
-          const filteredCards = initialCards.filter((card) => card.nameRU.toLowerCase().includes(filterText)||card.nameEN.toLowerCase().includes(filterText))
+        if (cards) {
+          const filteredCards = cards.filter((card) => card.nameRU.toLowerCase().includes(filterText)||card.nameEN.toLowerCase().includes(filterText))
           localStorage.setItem('filteredCards', JSON.stringify(filteredCards));
           setFilteredCards(filteredCards);
           if ((filteredCards.length>0)||(localWord.length===0)) {
@@ -319,21 +393,62 @@ function App() {
           } else {
             searchFindings(true);
           }
-        })
-        .catch((err) => {
-          console.log(err);
-          searchCompletion(false)
-        })
-        .finally(()=>{
-          setTimeout(()=>{
-            renderLoading(false);
-          }, 200);
+        } else {
+          renderLoading(true);
+          api
+          .getInitialCards()
+          .then((initialCards) => {
+            const filteredCards = initialCards.filter((card) => card.nameRU.toLowerCase().includes(filterText)||card.nameEN.toLowerCase().includes(filterText))
+            localStorage.setItem('filteredCards', JSON.stringify(filteredCards));
+            setFilteredCards(filteredCards);
+            if ((filteredCards.length>0)||(localWord.length===0)) {
+              searchFindings(false);
+            } else {
+              searchFindings(true);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            searchCompletion(false)
+          })
+          .finally(()=>{
+            setTimeout(()=>{
+              renderLoading(false);
+            }, 200);
+          }
+            )
         }
-          )
       } 
     else {
       searchResult(false)
     }
+}
+
+const onLogout = () => {
+  likedCards.forEach((card) => {
+    const movieId = card._id;
+    mainApi.deleteCard(movieId)
+  });
+  setCards([]);
+  setFilteredCards([])
+  setLoggedIn(false);
+  localStorage.removeItem('jwt')
+  localStorage.removeItem('filteredCards')
+  localStorage.removeItem('isChecked')
+  localStorage.removeItem('inputValue')
+  history.push('/');
+}
+
+// console.log('isLoggedIn:', isLoggedIn)
+// console.log('likedCards:', likedCards)
+
+function handleSavedMoviesRendering() {
+  const filteredSavedMoviesShorts = savedMoviesFilteredCards.filter((c) => c.duration <= 60);
+  console.log('handleSavedMoviesRenderingfilteredSavedMoviesShorts:', filteredSavedMoviesShorts)
+  setFilteredSavedMoviesShorts(filteredSavedMoviesShorts);
+  if (isSavedMovieChecked) {
+    setSavedMoviesVisibleCards(filteredSavedMoviesShorts);
+  }
 }
 
   return (
@@ -348,7 +463,9 @@ function App() {
           {isLoggedIn && <Header 
             isOpen={isMenuOpen}
             onMenuClick={handleMenuClick}
-            onClose={closeMenuClick}/>}
+            onClose={closeMenuClick}
+            onSavedMoviesClick={handleSavedMoviesClick}
+            />}
             <Promo/>
             <NavTab/>
             <AboutProject/>
@@ -363,7 +480,9 @@ function App() {
           <Header 
             isOpen={isMenuOpen}
             onMenuClick={handleMenuClick}
-            onClose={closeMenuClick}/>          
+            onClose={closeMenuClick}
+            onSavedMoviesClick={handleSavedMoviesClick}
+            />          
           <SearchForm
             onSearchClick={handleSearch}>
             <FilterCheckbox
@@ -394,21 +513,21 @@ function App() {
             onSavedMoviesClick={handleSavedMoviesClick}
             onMenuClick={handleMenuClick}
             onClose={closeMenuClick}/>  
-          <SearchForm
-            onSearchClick={handleSearch}
+          <SearchFormSavedMovie
+            onSavedMoviesSearchClick={handleSavedMoviesSearch}
           >
-            <FilterCheckbox
-              onFilterClick={setFilterChecked}
+            <FilterCheckboxSavedMovies
+              onFilterClick={setSavedMovieFilterChecked}
             />
-          </SearchForm>
+          </SearchFormSavedMovie>
           <Preloader/>
           <MoviesCardList
             onExtendClick={handleExtendClick}>
-            {likedCards.map((card, index)=>{
+            {savedMoviesVisibleCards.map((card, index)=>{
                 return (<MoviesCard
                 card={card} key={index}
                 onCardDelete ={handleCardDelete}
-                likedCards={likedCards}
+                likedCards={savedMoviesVisibleCards}
                 />)
               })}
           </MoviesCardList>
@@ -423,7 +542,10 @@ function App() {
           <Header 
             isOpen={isMenuOpen}
             onMenuClick={handleMenuClick}
-            onClose={closeMenuClick}/>
+            onClose={closeMenuClick}
+            onSavedMoviesClick={handleSavedMoviesClick}
+            />
+            
           <Profile
             userEmail={userEmail}
             userName={userName}

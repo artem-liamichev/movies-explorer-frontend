@@ -47,7 +47,7 @@ function Header({isOpen, onMenuClick, onClose, onSavedMoviesClick}) {
                                 <a href="/movies" className={`menu__item link ${pathname==='/movies' ? "active" : ""}`}>Фильмы</a>
                             </li>
                             <li>
-                                <a href="/saved-movies" className={`menu__item link ${pathname==='/saved-movies' ? "active" : ""}`}>Сохраненные фильмы</a>
+                                <a onClick={onSavedMoviesClick} href="/saved-movies" className={`menu__item link ${pathname==='/saved-movies' ? "active" : ""}`}>Сохраненные фильмы</a>
                             </li>
                             <li>
                                 <a href="/profile" className="account link">
