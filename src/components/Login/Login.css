@@ -14,6 +14,7 @@
     align-self: flex-start;
 }
 .login__title {
+    width: 396px;
     margin: 0;
     font-style: normal;
     font-weight: 500;
@@ -113,6 +114,9 @@
     .login__input {
         width: 260px;
     }
+    .login__title {
+        width: 260px;
+    }
     .login__subline {
         font-size: 12px;
         line-height: 15px;
@@ -126,4 +130,10 @@
     .login__input-label:first-of-type {
         margin-top: 84px;
     }
+}
+
+.login__inner{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

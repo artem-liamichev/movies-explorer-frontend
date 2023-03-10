@@ -414,7 +414,7 @@ function handleSavedMoviesRendering() {
     
     <div className="page__container">
       <Switch>
-        <Route exact path="/">
+        <Route exact path="/promo">
           <main className='main'>
           {!isLoggedIn && <LandingHeader/>}
           {isLoggedIn && <Header 
@@ -509,16 +509,20 @@ function handleSavedMoviesRendering() {
             />
         </ProtectedRoute>
         <Route path="/signup">
-            {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/signup"/>}
+            {isLoggedIn ? <Redirect to="/movies" /> : <Redirect to="/signup"/>}
             <Register onRegister={onRegister}/>
         </Route>
         <Route path="/signin">
-            {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/signin"/>}
+            {isLoggedIn ? <Redirect to="/movies" /> : <Redirect to="/signin"/>}
+            <Login onLogin={onLogin}/>
+        </Route>
+        <Route>
+            {isLoggedIn ? <Redirect to="/movies" /> : <Redirect to="/signin"/>}
             <Login onLogin={onLogin}/>
         </Route>
         <Route path='*'>
             <PageNotFound />
-          </Route>
+        </Route>
       </Switch>
     </div>
     </CurrenUserContext.Provider>

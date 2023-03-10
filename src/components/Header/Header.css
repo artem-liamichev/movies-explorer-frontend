@@ -200,3 +200,33 @@
         display: none;
     }
 }
+
+.header__lang-link {
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.3s;
+    font-weight: normal;
+    padding-bottom: 6px;
+    margin-right: 5px;
+  }
+  
+  .header__lang-link:last-child {
+    margin-right: 0;
+  }
+  
+  .header__lang-link:hover{
+    opacity: 0.8;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 767px) {
+    .header__lang-link {
+      padding-bottom: 8px;
+    }
+  }
+  
+  .header__lang-link_active {
+    text-decoration: underline;
+  }
+  
+  

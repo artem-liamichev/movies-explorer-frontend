@@ -134,3 +134,9 @@
         line-height: 15px;
     }
 }
+
+.register__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
