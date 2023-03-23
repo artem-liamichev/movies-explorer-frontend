@@ -23,7 +23,6 @@ function Login({ onLogin }) {
     return (
         <form autoComplete="off" onSubmit={handleSubmit((data, e) => {
             e.preventDefault();
-            console.log('data:', data)
             onLogin(data); 
             reset();
             })}
@@ -51,7 +50,6 @@ function Login({ onLogin }) {
                     }
                     className={`login__input input ${errors?.email?.message ? 'error': ''}`}
                     placeholder="E-mail"
-                    // ref={emailInputRef}
                     />
                 <p className="error-message">{errors.email?.message}</p>            
             </label>

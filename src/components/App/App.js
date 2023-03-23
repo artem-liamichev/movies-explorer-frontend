@@ -121,9 +121,6 @@ function App() {
   const onRegister = (data) => {
     mainApi
       .register(data)
-      .then(() => {
-        console.log('registerdata:', data)
-      })
       .catch((err) => {
         console.log(err);
       })
@@ -386,10 +383,6 @@ function App() {
 }
 
 const onLogout = () => {
-  // likedCards.forEach((card) => {
-  //   const movieId = card._id;
-  //   mainApi.deleteCard(movieId)
-  // });
   setCards([]);
   setFilteredCards([])
   setLoggedIn(false);

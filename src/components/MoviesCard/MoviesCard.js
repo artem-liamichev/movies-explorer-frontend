@@ -29,12 +29,10 @@ function MoviesCard({card, onCardLike, onCardDelete, likedCards}) {
   
     function handleLikeClick() {
         onCardLike(card)
-        console.log('card:', card)
         }
 
     function handleDeleteClick() {
         onCardDelete(card._id);
-        console.log('card._id:', card)
         }
   
   const cardLikeButtonClassName = (`card__like-button button ${isLiked ? 'card__like-button_active': 'card__like-button_disabled'}`); 
