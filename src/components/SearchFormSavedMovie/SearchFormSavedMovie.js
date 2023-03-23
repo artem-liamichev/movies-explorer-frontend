@@ -1,7 +1,9 @@
 import React, {useEffect} from 'react';
 import searchIcon from '../../images/search-icon.svg'
+import { useTranslation } from 'react-i18next';
 
 function SearchForm({children, onSavedMoviesSearchClick}) {
+  const { t } = useTranslation();
   
   const nameInputRef = React.useRef();
 
@@ -13,7 +15,7 @@ function SearchForm({children, onSavedMoviesSearchClick}) {
   return (
     <form className="search">
         <img className='search__icon' src={searchIcon} alt="иконка поиска"></img>
-        <input id="input" className="search__input" type="search" placeholder="Фильм" ref={nameInputRef}
+        <input id="input" className="search__input" type="search" placeholder={t('movie')} ref={nameInputRef}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleSavedMoviesSearchClick(e);              }

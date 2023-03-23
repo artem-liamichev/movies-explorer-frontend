@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
 import { useLocation} from 'react-router-dom';
 import useMedia from '../../hooks/useMedia';
+import { useTranslation } from 'react-i18next';
 
 function MoviesCard({card, onCardLike, onCardDelete, likedCards}) { 
+    const { t, i18n } = useTranslation();
     const isMobile = useMedia('(min-width: 320px) and (max-width: 500px)');  
     const isLiked = likedCards.some(i => i.movieId === card.id);
     const { pathname } = useLocation()
@@ -42,7 +44,7 @@ function MoviesCard({card, onCardLike, onCardDelete, likedCards}) {
         <a className="card__link" href={card.trailerLink} target="_blank"><img src={`https://api.nomoreparties.co${card.image.url}`} alt={card.nameRU} className="card__image"/></a>
         <div className="card__info">
             <div className='card__data'>
-                <h2 className="card__name">{card.nameRU}</h2>
+                <h2 className="card__name">{i18n.language==='ru' ? card.nameRU : card.nameEN}</h2>
                 <p className='card__length'>{
                     (() => {
                         if ((card.duration > 59) && ((card.duration % 60 !== 0))) {
@@ -64,7 +66,7 @@ function MoviesCard({card, onCardLike, onCardDelete, likedCards}) {
         <a className="card__link" href={card.trailerLink} target="_blank"><img src={card.image} alt={card.nameRU} className="card__image"/></a>
         <div className="card__info">
             <div className='card__data'>
-                <h2 className="card__name">{card.nameRU}</h2>
+                <h2 className="card__name">{i18n.language==='ru' ? card.nameRU : card.nameEN}</h2>
                 <p className='card__length'>{
                     (() => {
                         if ((card.duration > 59) && ((card.duration % 60 !== 0))) {
