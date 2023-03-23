@@ -29,10 +29,12 @@ function MoviesCard({card, onCardLike, onCardDelete, likedCards}) {
   
     function handleLikeClick() {
         onCardLike(card)
+        console.log('card:', card)
         }
 
     function handleDeleteClick() {
         onCardDelete(card._id);
+        console.log('card._id:', card)
         }
   
   const cardLikeButtonClassName = (`card__like-button button ${isLiked ? 'card__like-button_active': 'card__like-button_disabled'}`); 
@@ -48,11 +50,11 @@ function MoviesCard({card, onCardLike, onCardDelete, likedCards}) {
                 <p className='card__length'>{
                     (() => {
                         if ((card.duration > 59) && ((card.duration % 60 !== 0))) {
-                            return `${Math.floor(card.duration / 60)}ч ${card.duration % 60}м`
+                            return `${Math.floor(card.duration / 60)}${i18n.language==='ru' ? 'ч' : 'h'} ${card.duration % 60}${i18n.language==='ru' ? 'м' : 'm'}`
                         } else if ((card.duration % 60 === 0)) {
-                            return `${Math.floor(card.duration / 60)}ч` 
+                            return `${Math.floor(card.duration / 60)}${i18n.language==='ru' ? 'ч' : 'h'}` 
                         } else {
-                            return `${card.duration % 60}м` 
+                            return `${card.duration}${i18n.language==='ru' ? 'м' : 'm'}` 
                         }
                     })()
                     }
@@ -70,11 +72,11 @@ function MoviesCard({card, onCardLike, onCardDelete, likedCards}) {
                 <p className='card__length'>{
                     (() => {
                         if ((card.duration > 59) && ((card.duration % 60 !== 0))) {
-                            return `${Math.floor(card.duration / 60)}ч ${card.duration % 60}м`
+                            return `${Math.floor(card.duration / 60)}${i18n.language==='ru' ? 'ч' : 'h'} ${card.duration % 60}${i18n.language==='ru' ? 'м' : 'm'}`
                         } else if ((card.duration % 60 === 0)) {
-                            return `${Math.floor(card.duration / 60)}ч` 
+                            return `${Math.floor(card.duration / 60)}${i18n.language==='ru' ? 'ч' : 'h'}` 
                         } else {
-                            return `${card.duration % 60}м` 
+                            return `${card.duration}${i18n.language==='ru' ? 'м' : 'm'}` 
                         }
                     })()
                     }
